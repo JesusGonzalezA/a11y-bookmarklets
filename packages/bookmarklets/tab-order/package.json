@@ -1,8 +1,0 @@
-{
-  "name": "@bookmarklets-a11y/tab-order",
-  "version": "0.1.0",
-  "description": "Bookmarklet: visualize and audit tab order",
-  "type": "module",
-  "main": "./src/index.ts",
-  "license": "MIT"
-}

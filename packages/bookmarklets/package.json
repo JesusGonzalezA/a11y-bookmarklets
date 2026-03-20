@@ -1,0 +1,33 @@
+{
+  "name": "bookmarklets-a11y",
+  "version": "0.1.0",
+  "description": "Accessibility bookmarklets for humans and AI agents",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./build": {
+      "types": "./dist-build/compiler.d.ts",
+      "import": "./dist-build/compiler.js"
+    }
+  },
+  "bin": {
+    "build-bookmarklets": "./dist-build/cli.js"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json && tsc -p tsconfig.build.json",
+    "build:bookmarklets": "tsc -p tsconfig.build.json && node dist-build/cli.js"
+  },
+  "dependencies": {
+    "esbuild": "^0.25.0"
+  },
+  "files": [
+    "dist",
+    "dist-build"
+  ],
+  "license": "MIT"
+}

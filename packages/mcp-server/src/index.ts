@@ -16,11 +16,8 @@
 
 import { Server } from "@modelcontextprotocol/sdk/server/index.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
-import {
-  CallToolRequestSchema,
-  ListToolsRequestSchema,
-} from "@modelcontextprotocol/sdk/types.js";
-import { readBookmarkletCode } from "@bookmarklets-a11y/build-tools";
+import { CallToolRequestSchema, ListToolsRequestSchema } from "@modelcontextprotocol/sdk/types.js";
+import { readBookmarkletCode } from "bookmarklets-a11y/build";
 import { resolve, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 import { BOOKMARKLET_REGISTRY } from "./registry.js";
@@ -80,7 +77,8 @@ Example workflow:
         properties: {
           bookmarklet: {
             type: "string",
-            description: 'The bookmarklet ID to run (e.g. "headings", "landmarks", "tab-order", "images")',
+            description:
+              'The bookmarklet ID to run (e.g. "headings", "landmarks", "tab-order", "images")',
             enum: BOOKMARKLET_REGISTRY.map((b) => b.id),
           },
         },
@@ -205,8 +203,8 @@ function generateAuditScript(bookmarkletId: string): string {
   // Pass it directly as the `function` parameter to Playwright MCP's
   // browser_evaluate. Example:
   //   browser_evaluate({ function: "<returned string>" })
-    const code = readBookmarkletCode(bookmarkletDistDir(), bookmarkletId);
-    return `() => {
+  const code = readBookmarkletCode(bookmarkletDistDir(), bookmarkletId);
+  return `() => {
   // If already loaded, re-run and return results
   if (window.__a11y && window.__a11y['${bookmarkletId}']) {
     return window.__a11y['${bookmarkletId}'].audit();

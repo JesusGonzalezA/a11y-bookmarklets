@@ -1,8 +1,0 @@
-{
-  "name": "@bookmarklets-a11y/headings",
-  "version": "0.1.0",
-  "description": "Bookmarklet: audit heading structure (h1-h6)",
-  "type": "module",
-  "main": "./src/index.ts",
-  "license": "MIT"
-}

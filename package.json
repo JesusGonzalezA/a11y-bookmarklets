@@ -5,21 +5,21 @@
   "description": "Accessibility bookmarklets for humans and AI agents",
   "type": "module",
   "workspaces": [
-    "packages/core",
-    "packages/build-tools",
-    "packages/bookmarklets/*",
+    "packages/bookmarklets",
     "packages/mcp-server",
     "packages/website"
   ],
   "scripts": {
     "build": "npm run build --workspaces --if-present",
-    "build:core": "npm run build -w packages/core",
-    "build:bookmarklets": "npm run build -w packages/build-tools && node packages/build-tools/dist/cli.js",
+    "build:bookmarklets": "npm run build:bookmarklets -w packages/bookmarklets",
     "dev": "npm run dev -w packages/website",
     "test": "vitest run",
-    "clean": "rm -rf packages/*/dist"
+    "clean": "rm -rf packages/*/dist packages/*/dist-build dist",
+    "lint": "biome check .",
+    "format": "biome format . --write"
   },
   "devDependencies": {
+    "@biomejs/biome": "^2.4.8",
     "@types/node": "^25.3.3",
     "esbuild": "^0.25.0",
     "typescript": "^5.7.0",

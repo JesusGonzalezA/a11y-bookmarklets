@@ -17,9 +17,11 @@
     "build": "tsc -p tsconfig.json"
   },
   "dependencies": {
-    "@bookmarklets-a11y/build-tools": "*",
+    "bookmarklets-a11y": "*",
     "@modelcontextprotocol/sdk": "^1.0.0"
   },
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "license": "MIT"
 }
