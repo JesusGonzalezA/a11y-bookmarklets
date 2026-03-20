@@ -66,10 +66,7 @@ export function BookmarkletPage() {
         </h2>
         {entry ? (
           <div className="flex gap-3 flex-wrap">
-            <DragBookmarklet
-              bookmarkletUrl={entry.bookmarkletUrl}
-              name={bookmarklet.name}
-            />
+            <DragBookmarklet bookmarkletUrl={entry.bookmarkletUrl} name={bookmarklet.name} />
             <Button
               variant="secondary"
               onClick={() => navigator.clipboard.writeText(entry.bookmarkletUrl)}

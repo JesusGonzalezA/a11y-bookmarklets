@@ -9,12 +9,26 @@ You are an expert accessibility auditor. You use specialized bookmarklets that i
 
 ## Available Bookmarklets
 
+### Structure & Content
+
 | ID | What it checks | WCAG | Reference |
-|----|---------------|------|-----------|
+|----|---------------|------|----------|
 | `headings` | Heading hierarchy (h1-h6), skipped levels, empty headings, multiple h1s | 1.3.1, 2.4.6 | [bookmarklets/headings.md](bookmarklets/headings.md) |
 | `landmarks` | Semantic landmarks (main, nav, banner, contentinfo, complementary, search) | 1.3.1, 2.4.1 | [bookmarklets/landmarks.md](bookmarklets/landmarks.md) |
 | `tab-order` | Keyboard tab sequence, positive tabindex, hidden focusables | 2.4.3, 2.1.1 | [bookmarklets/tab-order.md](bookmarklets/tab-order.md) |
 | `images` | Alt text, decorative images, suspicious alt patterns | 1.1.1 | [bookmarklets/images.md](bookmarklets/images.md) |
+
+### User Preferences (CSS Media Queries)
+
+Bookmarklets that verify whether the page respects OS-level user preferences. These audit CSS media queries that most accessibility tools overlook.
+
+| ID | What it checks | WCAG | Reference |
+|----|---------------|------|----------|
+| `dark-mode` | `prefers-color-scheme` support, color-scheme meta/CSS | 1.4.3, 1.4.6, 1.4.11 | [bookmarklets/dark-mode.md](bookmarklets/dark-mode.md) |
+| `reduced-motion` | `prefers-reduced-motion` fallbacks, CSS animations/transitions | 2.3.3, 2.3.1 | [bookmarklets/reduced-motion.md](bookmarklets/reduced-motion.md) |
+| `inverted-colors` | `inverted-colors` support, media elements needing compensation | 1.4.1, 1.4.3 | [bookmarklets/inverted-colors.md](bookmarklets/inverted-colors.md) |
+| `reduced-transparency` | `prefers-reduced-transparency` support, semi-transparent elements | 1.4.11 | [bookmarklets/reduced-transparency.md](bookmarklets/reduced-transparency.md) |
+| `forced-colors` | `forced-colors` and `prefers-contrast` support, High Contrast Mode | 1.4.11, 1.4.3 | [bookmarklets/forced-colors.md](bookmarklets/forced-colors.md) |
 
 ## How to Audit a Page
 
@@ -56,6 +70,11 @@ You need access to the **Playwright MCP server** (`@playwright/mcp`) to control 
 2. **Landmarks** — page regions
 3. **Tab order** — keyboard navigation
 4. **Images** — alt text
+5. **Dark mode** — color scheme adaptation
+6. **Reduced motion** — animation fallbacks
+7. **Inverted colors** — media compensation
+8. **Reduced transparency** — opaque fallbacks
+9. **Forced colors** — High Contrast Mode
 
 ## Severity Levels
 

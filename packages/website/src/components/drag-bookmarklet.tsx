@@ -24,10 +24,18 @@ export function DragBookmarklet({ bookmarkletUrl, name, size = "default" }: Drag
       ref={ref}
       href="#"
       className={cn(buttonVariants({ variant: "outline", size }))}
-      onClick={(e) => e.preventDefault()}
+      onClick={(e) => {
+        e.preventDefault();
+        const code = bookmarkletUrl.replace(/^javascript:/i, "");
+        try {
+          new Function(decodeURIComponent(code))();
+        } catch {
+          /* bookmarklet may throw on this page */
+        }
+      }}
       draggable
-      title={name}
-      aria-label={`Drag ${name} bookmarklet to your bookmarks bar`}
+      title={`Click to run or drag to your bookmarks bar`}
+      aria-label={`Run or drag ${name} bookmarklet`}
     >
       {name}
     </a>

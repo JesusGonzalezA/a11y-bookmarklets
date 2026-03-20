@@ -37,12 +37,26 @@ skill/              → Definición de skill para skills.sh
 
 ## Bookmarklets disponibles
 
+### Estructura y contenido
+
 | Bookmarklet | Qué comprueba | WCAG |
 |-------------|---------------|------|
 | **Headings** | Estructura de encabezados (niveles, saltos, orden) | 1.3.1, 2.4.6 |
 | **Landmarks** | Regiones semánticas (nav, main, aside, footer) | 1.3.1, 2.4.1 |
 | **Tab Order** | Orden de tabulación y elementos focusables | 2.4.3, 2.1.1 |
 | **Images** | Alt text, imágenes decorativas, figcaption | 1.1.1 |
+
+### Preferencias del usuario (CSS Media Queries)
+
+Verifican si la página respeta las preferencias del sistema operativo del usuario. Diferenciador clave: no existen equivalentes en herramientas de accesibilidad tradicionales.
+
+| Bookmarklet | Qué comprueba | WCAG |
+|-------------|---------------|------|
+| **Dark Mode** | Soporte de `prefers-color-scheme`, meta tag y CSS `color-scheme` | 1.4.3, 1.4.6, 1.4.11 |
+| **Reduced Motion** | Fallbacks de `prefers-reduced-motion`, animaciones y transiciones CSS | 2.3.3, 2.3.1 |
+| **Inverted Colors** | Soporte de `inverted-colors`, compensación en imágenes y media | 1.4.1, 1.4.3 |
+| **Reduced Transparency** | Soporte de `prefers-reduced-transparency`, elementos semi-transparentes | 1.4.11 |
+| **Forced Colors** | Soporte de `forced-colors` y `prefers-contrast`, High Contrast Mode | 1.4.11, 1.4.3 |
 
 ## Uso
 

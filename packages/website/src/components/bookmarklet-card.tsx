@@ -36,11 +36,7 @@ export function BookmarkletCard({ bookmarklet, bookmarkletUrl }: BookmarkletCard
       </CardContent>
       <CardFooter className="flex gap-2 flex-wrap">
         {bookmarkletUrl ? (
-          <DragBookmarklet
-            bookmarkletUrl={bookmarkletUrl}
-            name={bookmarklet.name}
-            size="sm"
-          />
+          <DragBookmarklet bookmarkletUrl={bookmarkletUrl} name={bookmarklet.name} size="sm" />
         ) : (
           <span
             className={cn(

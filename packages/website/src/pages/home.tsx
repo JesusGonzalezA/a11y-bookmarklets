@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { BookmarkletCard } from "@/components/bookmarklet-card";
 import { CodeBlock } from "@/components/code-block";
 import { Separator } from "@/components/ui/separator";
@@ -13,9 +14,17 @@ const mcpConfig = `{
 
 export function HomePage() {
   const manifest = useManifest();
+  const [search, setSearch] = useState("");
 
   const getBookmarkletUrl = (id: string) =>
     manifest?.find((b: { id: string }) => b.id === id)?.bookmarkletUrl;
+
+  const query = search.toLowerCase();
+  const filteredBookmarklets = query
+    ? bookmarklets.filter(
+        (b) => b.name.toLowerCase().includes(query) || b.description.toLowerCase().includes(query),
+      )
+    : bookmarklets;
 
   return (
     <div className="max-w-3xl mx-auto px-6 py-12">
@@ -85,11 +94,24 @@ export function HomePage() {
         <h2 id="bookmarklets-heading" className="text-2xl font-semibold tracking-tight mb-6">
           Bookmarklets
         </h2>
+        <input
+          type="search"
+          placeholder="Search by name or description…"
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          aria-label="Search bookmarklets"
+          className="mb-6 w-full rounded-lg border border-border bg-background px-3 py-2 text-sm outline-none placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50"
+        />
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          {bookmarklets.map((b) => (
+          {filteredBookmarklets.map((b) => (
             <BookmarkletCard key={b.id} bookmarklet={b} bookmarkletUrl={getBookmarkletUrl(b.id)} />
           ))}
         </div>
+        {filteredBookmarklets.length === 0 && (
+          <p className="text-center text-muted-foreground mt-4">
+            No bookmarklets match your search.
+          </p>
+        )}
       </section>
 
       <Separator className="mb-12" />
