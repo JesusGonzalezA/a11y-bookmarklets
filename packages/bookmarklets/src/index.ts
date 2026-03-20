@@ -4,12 +4,22 @@ export type {
   AuditResult,
   AuditSummary,
   AuditOutput,
+  BookmarkletCatalogEntry,
   BookmarkletMeta,
   BookmarkletMode,
   BookmarkletOptions,
   Issue,
   Severity,
 } from "./domain/types.js";
+
+// Catalog
+export {
+  BOOKMARKLET_CATALOG,
+  HEADINGS_CATALOG,
+  IMAGES_CATALOG,
+  LANDMARKS_CATALOG,
+  TAB_ORDER_CATALOG,
+} from "./catalog/index.js";
 
 // Bookmarklets
 export { HeadingsBookmarklet } from "./domain/bookmarklets/HeadingsBookmarklet.js";

@@ -10,7 +10,7 @@
  *   6. Register on window.__a11y for programmatic access
  *
  * Each concrete bookmarklet defines:
- *   - id, name, description, wcagCriteria (metadata)
+ *   - catalog entry (id, name, description, wcag — via constructor)
  *   - audit()  → pure analysis, returns issues + typed data
  *   - render() → visual overlays specific to this bookmarklet
  */
@@ -30,10 +30,17 @@ import {
 } from "../infrastructure/reporter/AuditReporter.js";
 
 export abstract class Bookmarklet<T> {
-  abstract readonly id: string;
-  abstract readonly name: string;
-  abstract readonly description: string;
-  abstract readonly wcagCriteria: string[];
+  readonly id: string;
+  readonly name: string;
+  readonly description: string;
+  readonly wcagCriteria: string[];
+
+  constructor(meta: BookmarkletMeta) {
+    this.id = meta.id;
+    this.name = meta.name;
+    this.description = meta.description;
+    this.wcagCriteria = meta.wcag;
+  }
 
   /** Analyze the page and collect issues + data for rendering. */
   protected abstract audit(): AuditOutput<T>;

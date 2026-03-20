@@ -12,7 +12,7 @@
   "scripts": {
     "build": "npm run build --workspaces --if-present",
     "build:bookmarklets": "npm run build:bookmarklets -w packages/bookmarklets",
-    "dev": "npm run dev -w packages/website",
+    "dev": "npm run build:bookmarklets && npm run dev -w packages/website",
     "test": "vitest run",
     "clean": "rm -rf packages/*/dist packages/*/dist-build dist",
     "lint": "biome check .",

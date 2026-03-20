@@ -15,7 +15,7 @@ export function HomePage() {
   const manifest = useManifest();
 
   const getBookmarkletUrl = (id: string) =>
-    manifest?.bookmarklets?.find((b: { id: string }) => b.id === id)?.bookmarkletUrl;
+    manifest?.find((b: { id: string }) => b.id === id)?.bookmarkletUrl;
 
   return (
     <div className="max-w-3xl mx-auto px-6 py-12">

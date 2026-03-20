@@ -1,5 +1,6 @@
 import { Link, useParams } from "react-router";
 import { CodeBlock } from "@/components/code-block";
+import { DragBookmarklet } from "@/components/drag-bookmarklet";
 import { Badge } from "@/components/ui/badge";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
@@ -26,7 +27,7 @@ export function BookmarkletPage() {
     );
   }
 
-  const entry = manifest?.bookmarklets?.find((b: { id: string }) => b.id === bookmarklet.id);
+  const entry = manifest?.find((b: { id: string }) => b.id === bookmarklet.id);
 
   return (
     <div className="max-w-3xl mx-auto px-6 py-12">
@@ -65,19 +66,10 @@ export function BookmarkletPage() {
         </h2>
         {entry ? (
           <div className="flex gap-3 flex-wrap">
-            <a
-              href={entry.bookmarkletUrl}
-              className={cn(buttonVariants({ variant: "outline" }))}
-              onClick={(e) => e.preventDefault()}
-              draggable
-              onDragStart={(e) => {
-                e.dataTransfer.setData("text/uri-list", entry.bookmarkletUrl);
-                e.dataTransfer.setData("text/plain", entry.bookmarkletUrl);
-              }}
-              aria-label={`Drag ${bookmarklet.name} bookmarklet to your bookmarks bar`}
-            >
-              Drag to bookmarks bar
-            </a>
+            <DragBookmarklet
+              bookmarkletUrl={entry.bookmarkletUrl}
+              name={bookmarklet.name}
+            />
             <Button
               variant="secondary"
               onClick={() => navigator.clipboard.writeText(entry.bookmarkletUrl)}

@@ -2,18 +2,16 @@ import { useEffect, useState } from "react";
 
 interface ManifestEntry {
   id: string;
+  name: string;
+  description: string;
+  wcag: string[];
   bookmarkletUrl: string;
-  scriptUrl: string;
-  inlineSize: number;
-  loaderSize: number;
-}
-
-interface Manifest {
-  bookmarklets: ManifestEntry[];
+  jsFile: string;
+  size: number;
 }
 
 export function useManifest() {
-  const [manifest, setManifest] = useState<Manifest | null>(null);
+  const [manifest, setManifest] = useState<ManifestEntry[] | null>(null);
 
   useEffect(() => {
     fetch("/bookmarklets/manifest.json")

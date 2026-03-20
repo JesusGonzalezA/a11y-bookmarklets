@@ -8,6 +8,7 @@ import { Bookmarklet } from "../Bookmarklet.js";
 import type { AuditOutput, Issue } from "../types.js";
 import { queryAll, uniqueSelector, truncatedHtml } from "../../infrastructure/dom/DomUtils.js";
 import { addLabel, addOutline, showPanel } from "../../infrastructure/overlay/OverlayManager.js";
+import { LANDMARKS_CATALOG } from "../../catalog/landmarks.js";
 
 interface LandmarkData {
   role: string;
@@ -84,11 +85,9 @@ function getAccessibleName(el: Element): string {
 }
 
 export class LandmarksBookmarklet extends Bookmarklet<LandmarkData[]> {
-  readonly id = "landmarks";
-  readonly name = "Landmarks";
-  readonly description =
-    "Audit semantic landmark regions: main, nav, banner, complementary, contentinfo, search.";
-  readonly wcagCriteria = ["1.3.1", "2.4.1"];
+  constructor() {
+    super(LANDMARKS_CATALOG);
+  }
 
   protected audit(): AuditOutput<LandmarkData[]> {
     const candidates = queryAll(

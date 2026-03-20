@@ -1,5 +1,6 @@
 import { Link } from "react-router";
 import { Badge } from "@/components/ui/badge";
+import { DragBookmarklet } from "@/components/drag-bookmarklet";
 import { buttonVariants } from "@/components/ui/button";
 import {
   Card,
@@ -35,20 +36,11 @@ export function BookmarkletCard({ bookmarklet, bookmarkletUrl }: BookmarkletCard
       </CardContent>
       <CardFooter className="flex gap-2 flex-wrap">
         {bookmarkletUrl ? (
-          <a
-            href={bookmarkletUrl}
-            className={cn(buttonVariants({ variant: "outline", size: "sm" }))}
-            onClick={(e) => e.preventDefault()}
-            onDragStart={(e) => {
-              e.dataTransfer.setData("text/uri-list", bookmarkletUrl);
-              e.dataTransfer.setData("text/plain", bookmarkletUrl);
-            }}
-            draggable
-            title={`Drag "${bookmarklet.name}" to your bookmarks bar`}
-            aria-label={`Drag ${bookmarklet.name} bookmarklet to your bookmarks bar`}
-          >
-            Drag to bookmarks
-          </a>
+          <DragBookmarklet
+            bookmarkletUrl={bookmarkletUrl}
+            name={bookmarklet.name}
+            size="sm"
+          />
         ) : (
           <span
             className={cn(

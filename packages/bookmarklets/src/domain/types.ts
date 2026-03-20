@@ -51,3 +51,10 @@ export interface BookmarkletMeta {
   description: string;
   wcag: string[];
 }
+
+/** Extended metadata for discovery by website, MCP, and skill. */
+export interface BookmarkletCatalogEntry extends BookmarkletMeta {
+  details: string;
+  checks: string[];
+  dataReturned: string;
+}

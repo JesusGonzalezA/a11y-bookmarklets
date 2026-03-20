@@ -8,6 +8,7 @@ import { Bookmarklet } from "../Bookmarklet.js";
 import type { AuditOutput, Issue } from "../types.js";
 import { queryAll, uniqueSelector, truncatedHtml } from "../../infrastructure/dom/DomUtils.js";
 import { addLabel, addOutline, showPanel } from "../../infrastructure/overlay/OverlayManager.js";
+import { HEADINGS_CATALOG } from "../../catalog/headings.js";
 
 interface HeadingData {
   level: number;
@@ -29,11 +30,9 @@ function getHeadingLevel(tag: string): number {
 }
 
 export class HeadingsBookmarklet extends Bookmarklet<HeadingData[]> {
-  readonly id = "headings";
-  readonly name = "Headings";
-  readonly description =
-    "Audit heading structure (h1-h6): hierarchy, skipped levels, empty headings, multiple h1s.";
-  readonly wcagCriteria = ["1.3.1", "2.4.6"];
+  constructor() {
+    super(HEADINGS_CATALOG);
+  }
 
   protected audit(): AuditOutput<HeadingData[]> {
     const headingElements = queryAll("h1, h2, h3, h4, h5, h6");

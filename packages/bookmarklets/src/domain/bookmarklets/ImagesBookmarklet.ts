@@ -8,6 +8,7 @@ import { Bookmarklet } from "../Bookmarklet.js";
 import type { AuditOutput, Issue } from "../types.js";
 import { queryAll, uniqueSelector, truncatedHtml } from "../../infrastructure/dom/DomUtils.js";
 import { addLabel, addOutline, showPanel } from "../../infrastructure/overlay/OverlayManager.js";
+import { IMAGES_CATALOG } from "../../catalog/images.js";
 
 interface ImageData {
   selector: string;
@@ -19,11 +20,9 @@ interface ImageData {
 }
 
 export class ImagesBookmarklet extends Bookmarklet<ImageData[]> {
-  readonly id = "images";
-  readonly name = "Images";
-  readonly description =
-    "Audit image alt text: missing alt, decorative images, suspicious alt text patterns.";
-  readonly wcagCriteria = ["1.1.1"];
+  constructor() {
+    super(IMAGES_CATALOG);
+  }
 
   protected audit(): AuditOutput<ImageData[]> {
     const imgElements = queryAll("img, [role='img'], svg[role='img']");

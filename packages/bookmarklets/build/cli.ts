@@ -18,6 +18,9 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 
 interface ManifestEntry {
   id: string;
+  name: string;
+  description: string;
+  wcag: string[];
   bookmarkletUrl: string;
   jsFile: string;
   size: number;
@@ -35,6 +38,9 @@ async function main() {
   const entryDir = resolve(packageDir, "src", "entry");
   const outDir = resolve(packageDir, "..", "..", "dist", "bookmarklets");
   mkdirSync(outDir, { recursive: true });
+
+  // Import catalog from the compiled dist/ (built by tsc before this script runs)
+  const { BOOKMARKLET_CATALOG } = await import("../dist/catalog/index.js");
 
   const entries = readdirSync(entryDir)
     .filter((f) => f.endsWith(".ts"))
@@ -57,6 +63,8 @@ async function main() {
 
     console.log(`📦 Building ${name}...`);
 
+    const catalogEntry = BOOKMARKLET_CATALOG.find((b) => b.id === name);
+
     const result: CompileResult = await compileBookmarklet({
       entryPoint,
       outDir,
@@ -66,6 +74,9 @@ async function main() {
 
     manifest.push({
       id: name,
+      name: catalogEntry?.name ?? name,
+      description: catalogEntry?.description ?? "",
+      wcag: catalogEntry?.wcag ?? [],
       bookmarkletUrl: result.bookmarkletUrl,
       jsFile: `${name}.min.js`,
       size: result.code.length,

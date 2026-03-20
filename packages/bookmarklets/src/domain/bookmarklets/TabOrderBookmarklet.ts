@@ -8,6 +8,7 @@ import { Bookmarklet } from "../Bookmarklet.js";
 import type { AuditOutput, Issue } from "../types.js";
 import { queryAll, uniqueSelector, truncatedHtml } from "../../infrastructure/dom/DomUtils.js";
 import { addLabel, addOutline, showPanel } from "../../infrastructure/overlay/OverlayManager.js";
+import { TAB_ORDER_CATALOG } from "../../catalog/tab-order.js";
 
 interface FocusableData {
   index: number;
@@ -51,11 +52,9 @@ function getLabel(el: Element): string {
 }
 
 export class TabOrderBookmarklet extends Bookmarklet<FocusableData[]> {
-  readonly id = "tab-order";
-  readonly name = "Tab Order";
-  readonly description =
-    "Visualize and audit keyboard tab order: positive tabindex, hidden focusable elements.";
-  readonly wcagCriteria = ["2.4.3", "2.1.1"];
+  constructor() {
+    super(TAB_ORDER_CATALOG);
+  }
 
   protected audit(): AuditOutput<FocusableData[]> {
     const elements = queryAll(FOCUSABLE_SELECTOR);
