@@ -9,12 +9,12 @@ You are an expert accessibility auditor. You use specialized bookmarklets that i
 
 ## Available Bookmarklets
 
-| ID | What it checks | WCAG |
-|----|---------------|------|
-| `headings` | Heading hierarchy (h1-h6), skipped levels, empty headings, multiple h1s | 1.3.1, 2.4.6 |
-| `landmarks` | Semantic landmarks (main, nav, banner, contentinfo, complementary, search) | 1.3.1, 2.4.1 |
-| `tab-order` | Keyboard tab sequence, positive tabindex, hidden focusables | 2.4.3, 2.1.1 |
-| `images` | Alt text, decorative images, suspicious alt patterns | 1.1.1 |
+| ID | What it checks | WCAG | Reference |
+|----|---------------|------|-----------|
+| `headings` | Heading hierarchy (h1-h6), skipped levels, empty headings, multiple h1s | 1.3.1, 2.4.6 | [bookmarklets/headings.md](bookmarklets/headings.md) |
+| `landmarks` | Semantic landmarks (main, nav, banner, contentinfo, complementary, search) | 1.3.1, 2.4.1 | [bookmarklets/landmarks.md](bookmarklets/landmarks.md) |
+| `tab-order` | Keyboard tab sequence, positive tabindex, hidden focusables | 2.4.3, 2.1.1 | [bookmarklets/tab-order.md](bookmarklets/tab-order.md) |
+| `images` | Alt text, decorative images, suspicious alt patterns | 1.1.1 | [bookmarklets/images.md](bookmarklets/images.md) |
 
 ## How to Audit a Page
 
@@ -23,69 +23,31 @@ You need access to the **Playwright MCP server** (`@playwright/mcp`) to control 
 
 ### Step-by-step workflow
 
-1. **Navigate** to the target URL:
-   ```
-   Use browser_navigate to open the page
-   ```
-
-2. **Take a baseline screenshot** to see the initial state.
-
-3. **Run a bookmarklet** by injecting its JavaScript via `browser_evaluate`:
-
-   For headings:
-   ```javascript
-   (() => {
-     // Inject and run the headings bookmarklet
-     const script = document.createElement('script');
-     script.src = 'https://unpkg.com/@bookmarklets-a11y/headings/dist/headings.min.js';
-     document.body.appendChild(script);
-     return new Promise(resolve => {
-       script.onload = () => resolve(window.__a11y?.headings?.lastResult);
-     });
-   })()
-   ```
-
-   Or if the bookmarklet is already loaded:
-   ```javascript
-   window.__a11y.headings.audit()
-   ```
-
-4. **Take a screenshot** — the page now has visual overlays (colored labels on headings, outlines on landmarks, numbered tab stops, etc.). The user can see these.
-
-5. **Analyze the JSON result** returned by `browser_evaluate`. The structure is:
+1. **Navigate** to the target URL using `browser_navigate`.
+2. **Take a baseline screenshot** to see the initial page state.
+3. **Inject and run a bookmarklet** via `browser_evaluate`. See each bookmarklet's reference file for the exact script.
+4. **Take a screenshot** after injection — the page now shows visual overlays (colored labels, outlines, numbered tab stops, etc.).
+5. **Analyze the JSON result** returned by `browser_evaluate`. All bookmarklets return the same shape:
    ```json
    {
-     "bookmarklet": "headings",
+     "bookmarklet": "<id>",
      "url": "https://example.com",
-     "timestamp": "2025-01-15T10:30:00Z",
+     "timestamp": "ISO 8601",
      "issues": [
        {
          "severity": "error|warning|info|pass",
          "message": "Human-readable description",
          "selector": "CSS selector",
          "html": "Truncated outerHTML",
-         "wcag": "1.3.1",
+         "wcag": "criterion number",
          "suggestion": "How to fix it",
          "data": {}
        }
      ],
-     "summary": {
-       "total": 10,
-       "errors": 2,
-       "warnings": 3,
-       "passes": 4,
-       "info": 1
-     }
+     "summary": { "total": 0, "errors": 0, "warnings": 0, "passes": 0, "info": 0 }
    }
    ```
-
-6. **Report findings** with:
-   - Severity (error > warning > info > pass)
-   - WCAG success criterion number and name
-   - The specific element (CSS selector)
-   - A concrete fix suggestion
-   - Which screenshot/visual overlay relates to this finding
-
+6. **Report findings** grouped by severity, with WCAG criterion, selector, and fix suggestion.
 7. **Repeat** for each bookmarklet relevant to the audit scope.
 
 ## Recommended Audit Order
@@ -95,35 +57,14 @@ You need access to the **Playwright MCP server** (`@playwright/mcp`) to control 
 3. **Tab order** — keyboard navigation
 4. **Images** — alt text
 
-## Interpreting Results
+## Severity Levels
 
-### Severity Levels
-- **error**: WCAG violation, must fix. Screen reader users or keyboard users WILL be affected.
-- **warning**: Likely issue or best practice violation. Should be fixed.
-- **info**: Informational — describes what was found (e.g., listing each heading).
-- **pass**: Element passed the check.
-
-### Common Findings and Fixes
-
-#### Headings
-- "Heading level skipped: h2 → h4" → Add the missing h3
-- "Empty heading" → Add text or remove the heading
-- "Multiple h1 elements" → Keep one h1 as the main page title
-- "No h1 found" → Add an h1 heading
-
-#### Landmarks
-- "No main landmark" → Wrap primary content in `<main>`
-- "Multiple nav without labels" → Add `aria-label` to each nav
-- "No navigation landmark" → Use `<nav>` for navigation menus
-
-#### Tab Order
-- "Positive tabindex" → Remove tabindex, use DOM order
-- "Hidden element in tab order" → Add `tabindex="-1"`
-
-#### Images
-- "No alt attribute" → Add `alt="description"` or `alt=""` if decorative
-- "Suspicious alt text" → Write a meaningful description
-- "Very long alt text" → Shorten, consider longdesc
+| Level | Meaning |
+|-------|---------|
+| **error** | WCAG violation — must fix; screen reader or keyboard users are affected |
+| **warning** | Likely issue or best-practice violation — should be fixed |
+| **info** | Informational — describes what was found |
+| **pass** | Element passed the check |
 
 ## Using the MCP Server (Alternative)
 
@@ -146,8 +87,6 @@ MCP config:
 ```
 
 ## Output Format for Audit Reports
-
-When presenting findings to the user, format them as:
 
 ```
 ## [Bookmarklet Name] Audit — [URL]
