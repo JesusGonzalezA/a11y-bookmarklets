@@ -1,16 +1,6 @@
 {
   "css.lint.unknownAtRules": "ignore",
-  "css.lint.compatibleVendorPrefixes": "ignore",
-  "css.lint.vendorPrefix": "ignore",
-  "css.lint.duplicateProperties": "ignore",
-  "css.lint.emptyRules": "ignore",
-  "css.lint.parseError": "ignore",
-  "css.lint.propertyIgnoredDueToDisplay": "ignore",
-  "css.lint.universalSelector": "ignore",
-  "css.validate": false,
   "scss.lint.unknownAtRules": "ignore",
-  "less.lint.unknownAtRules": "ignore",
-  "[css]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  }
+  "less.lint.unknownAtRules": "ignore"
 }
+
