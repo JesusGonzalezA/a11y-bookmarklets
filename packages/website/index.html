@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>A11y Bookmarklets — For Humans & AI Agents</title>
+  <style>
+    :root {
+      --bg: #0f0f1a;
+      --surface: #1a1a2e;
+      --text: #e0e0e0;
+      --muted: #888;
+      --accent: #6c63ff;
+      --error: #e74c3c;
+      --warning: #f39c12;
+      --success: #2ecc71;
+      --info: #3498db;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: system-ui, -apple-system, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+    .container { max-width: 960px; margin: 0 auto; padding: 2rem; }
+    h1 {
+      font-size: 2.5rem;
+      margin-bottom: 0.5rem;
+      background: linear-gradient(135deg, var(--accent), #a78bfa);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .subtitle { color: var(--muted); font-size: 1.2rem; margin-bottom: 3rem; }
+    h2 { font-size: 1.5rem; margin: 2rem 0 1rem; color: var(--accent); }
+    p { margin-bottom: 1rem; }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1.5rem;
+      margin: 2rem 0;
+    }
+    .card {
+      background: var(--surface);
+      border-radius: 12px;
+      padding: 1.5rem;
+      border: 1px solid rgba(108, 99, 255, 0.2);
+    }
+    .card h3 { font-size: 1.2rem; margin-bottom: 0.5rem; }
+    .card p { color: var(--muted); font-size: 0.9rem; }
+    .wcag-tag {
+      display: inline-block;
+      font-size: 0.75rem;
+      padding: 2px 8px;
+      border-radius: 4px;
+      background: rgba(108, 99, 255, 0.2);
+      color: var(--accent);
+      margin: 4px 4px 0 0;
+    }
+    .bookmarklet-link {
+      display: inline-block;
+      margin-top: 1rem;
+      padding: 8px 16px;
+      background: var(--accent);
+      color: white;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.9rem;
+      cursor: grab;
+      transition: transform 0.15s;
+    }
+    .bookmarklet-link:hover { transform: scale(1.05); }
+    .bookmarklet-link:active { cursor: grabbing; }
+    .instructions {
+      background: var(--surface);
+      border-radius: 12px;
+      padding: 1.5rem;
+      margin: 2rem 0;
+      border-left: 4px solid var(--accent);
+    }
+    .instructions ol { padding-left: 1.5rem; }
+    .instructions li { margin-bottom: 0.5rem; }
+    code {
+      background: rgba(108, 99, 255, 0.15);
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 0.9em;
+    }
+    pre {
+      background: var(--surface);
+      border-radius: 8px;
+      padding: 1rem;
+      overflow-x: auto;
+      font-size: 0.85rem;
+      margin: 1rem 0;
+      border: 1px solid rgba(108,99,255,0.2);
+    }
+    .dual-badge {
+      display: flex;
+      gap: 0.5rem;
+      margin-bottom: 1rem;
+    }
+    .badge {
+      font-size: 0.75rem;
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-weight: 600;
+    }
+    .badge-human { background: var(--success); color: #000; }
+    .badge-agent { background: var(--info); color: #000; }
+    footer {
+      margin-top: 4rem;
+      padding-top: 2rem;
+      border-top: 1px solid rgba(255,255,255,0.1);
+      text-align: center;
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>A11y Bookmarklets</h1>
+      <p class="subtitle">Accessibility audits for humans & AI agents</p>
+      <div class="dual-badge">
+        <span class="badge badge-human">👁 Visual overlays for humans</span>
+        <span class="badge badge-agent">🤖 Structured JSON for AI agents</span>
+      </div>
+    </header>
+
+    <section>
+      <h2>How to install</h2>
+      <div class="instructions">
+        <ol>
+          <li><strong>Drag</strong> any bookmarklet button below to your bookmarks bar</li>
+          <li>Navigate to the page you want to audit</li>
+          <li>Click the bookmarklet — visual overlays appear instantly</li>
+          <li>Open the browser console to see the JSON data (<code>window.__a11y</code>)</li>
+        </ol>
+      </div>
+    </section>
+
+    <section>
+      <h2>Bookmarklets</h2>
+      <div class="grid" id="bookmarklets-grid">
+        <!-- Populated by JS -->
+        <noscript>
+          <p>Enable JavaScript to see the bookmarklet links.</p>
+        </noscript>
+      </div>
+    </section>
+
+    <section>
+      <h2>For AI Agents</h2>
+      <p>AI agents can use these bookmarklets via the MCP server or by injecting the scripts directly with Playwright.</p>
+
+      <h3 style="margin-top:1.5rem">MCP Server Setup</h3>
+      <pre><code>{
+  "mcpServers": {
+    "a11y-bookmarklets": {
+      "command": "npx",
+      "args": ["@bookmarklets-a11y/mcp-server"]
+    }
+  }
+}</code></pre>
+
+      <h3 style="margin-top:1.5rem">Agent Skill</h3>
+      <pre><code>npx skills add weaaare/bookmarklets-a11y@a11y-bookmarklets</code></pre>
+
+      <h3 style="margin-top:1.5rem">Direct Playwright Usage</h3>
+      <pre><code>// Via browser_evaluate in Playwright MCP:
+(() => {
+  return window.__a11y.headings.audit();
+})()</code></pre>
+    </section>
+
+    <footer>
+      <p>Built by <a href="https://weaaare.com" style="color:var(--accent)">weaaare</a> — Open source under MIT</p>
+    </footer>
+  </div>
+
+  <script type="module">
+    const bookmarklets = [
+      {
+        id: "headings",
+        name: "Headings",
+        description: "Audit heading structure: hierarchy, skipped levels, empty headings, multiple h1s.",
+        wcag: ["1.3.1", "2.4.6"],
+        color: "#e74c3c",
+      },
+      {
+        id: "landmarks",
+        name: "Landmarks",
+        description: "Visualize semantic landmark regions: main, nav, banner, complementary, contentinfo.",
+        wcag: ["1.3.1", "2.4.1"],
+        color: "#e67e22",
+      },
+      {
+        id: "tab-order",
+        name: "Tab Order",
+        description: "Show keyboard tab sequence with numbered labels. Detect positive tabindex issues.",
+        wcag: ["2.4.3", "2.1.1"],
+        color: "#3498db",
+      },
+      {
+        id: "images",
+        name: "Images",
+        description: "Check images for alt text, decorative markers, and suspicious alt patterns.",
+        wcag: ["1.1.1"],
+        color: "#2ecc71",
+      },
+    ];
+
+    // Load the compiled bookmarklet manifest to get inline javascript: URLs
+    (async () => {
+      let manifest = [];
+      try {
+        const res = await fetch("/bookmarklets/manifest.json");
+        if (res.ok) manifest = await res.json();
+      } catch { /* manifest not available — show placeholder links */ }
+
+      const grid = document.getElementById("bookmarklets-grid");
+
+      for (const bm of bookmarklets) {
+        const entry = manifest.find(m => m.id === bm.id);
+        const card = document.createElement("div");
+        card.className = "card";
+        card.innerHTML = `
+          <h3 style="color:${bm.color}">${bm.name}</h3>
+          <p>${bm.description}</p>
+          <div>${bm.wcag.map(w => `<span class="wcag-tag">WCAG ${w}</span>`).join("")}</div>
+          <a class="bookmarklet-link"
+             href="${entry?.bookmarkletUrl || "javascript:void(alert('Build the bookmarklets first: npm run build:bookmarklets'))"}"
+             title="Drag me to your bookmarks bar!">
+            📎 ${bm.name}
+          </a>
+        `;
+        grid.appendChild(card);
+      }
+    })();
+  </script>
+</body>
+</html>

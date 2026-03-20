@@ -1,0 +1,92 @@
+# Accessibility Bookmarklets for Humans & AI Agents
+
+> Bookmarklets de accesibilidad que funcionan en dos modos: **visual** (para auditores humanos) y **datos estructurados** (JSON para agentes IA).
+
+## Concepto
+
+Los bookmarklets tradicionales de accesibilidad solo añaden overlays visuales a la página. Este proyecto los amplía para que **también devuelvan datos JSON estructurados**, permitiendo que agentes IA (vía MCP + Playwright) puedan ejecutarlos y razonar sobre los resultados.
+
+```
+┌─────────────────────────────────────────────────────┐
+│                  Página web                          │
+│                                                      │
+│   [Bookmarklet ejecutado]                            │
+│     │                                                │
+│     ├──► Visual: overlays, recuadros, etiquetas      │  ← Humano ve esto
+│     │                                                │
+│     └──► JSON: { issues: [...], summary: {...} }     │  ← Agente IA usa esto
+│                                                      │
+└─────────────────────────────────────────────────────┘
+```
+
+## Estructura del proyecto
+
+```
+packages/
+├── core/           → Tipos compartidos, utilidades DOM, reporter
+├── build-tools/    → Compilador TS → bookmarklet (esbuild)
+├── bookmarklets/   → Bookmarklets individuales
+│   ├── headings/   → Verificar estructura de headings
+│   ├── landmarks/  → Zonas semánticas (nav, main, footer...)
+│   ├── tab-order/  → Orden de tabulación
+│   └── images/     → Alt text de imágenes
+├── mcp-server/     → Servidor MCP para agentes IA
+└── website/        → Web para descargar bookmarklets
+skill/              → Definición de skill para skills.sh
+```
+
+## Bookmarklets disponibles
+
+| Bookmarklet | Qué comprueba | WCAG |
+|-------------|---------------|------|
+| **Headings** | Estructura de encabezados (niveles, saltos, orden) | 1.3.1, 2.4.6 |
+| **Landmarks** | Regiones semánticas (nav, main, aside, footer) | 1.3.1, 2.4.1 |
+| **Tab Order** | Orden de tabulación y elementos focusables | 2.4.3, 2.1.1 |
+| **Images** | Alt text, imágenes decorativas, figcaption | 1.1.1 |
+
+## Uso
+
+### Como humano (bookmarklet en el navegador)
+
+1. Visita la [web del proyecto](/) y arrastra el bookmarklet a tu barra de favoritos
+2. Navega a la página que quieras auditar
+3. Haz clic en el bookmarklet
+4. Verás overlays visuales sobre los elementos relevantes
+
+### Como agente IA (vía MCP)
+
+```json
+{
+  "mcpServers": {
+    "a11y-bookmarklets": {
+      "command": "npx",
+      "args": ["@bookmarklets-a11y/mcp-server"]
+    }
+  }
+}
+```
+
+El agente puede usar los tools del servidor MCP para ejecutar auditorías y recibir resultados JSON.
+
+### Programáticamente (browser_evaluate)
+
+```javascript
+// Desde Playwright MCP browser_evaluate
+const result = await page.evaluate(() => {
+  // El bookmarklet inyecta window.__a11y y devuelve datos
+  return window.__a11y.headings.audit();
+});
+```
+
+## Desarrollo
+
+```bash
+npm install
+npm run build
+npm run test
+npm run dev          # Website local
+```
+
+## Licencia
+
+MIT

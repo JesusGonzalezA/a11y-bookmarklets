@@ -1,0 +1,8 @@
+{
+  "name": "@bookmarklets-a11y/images",
+  "version": "0.1.0",
+  "description": "Bookmarklet: audit image alt text",
+  "type": "module",
+  "main": "./src/index.ts",
+  "license": "MIT"
+}

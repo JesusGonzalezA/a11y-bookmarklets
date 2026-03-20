@@ -1,0 +1,25 @@
+{
+  "name": "@bookmarklets-a11y/mcp-server",
+  "version": "0.1.0",
+  "description": "MCP server for running a11y bookmarklet audits via AI agents",
+  "type": "module",
+  "main": "./dist/index.js",
+  "bin": {
+    "a11y-bookmarklets-mcp": "./dist/index.js"
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json"
+  },
+  "dependencies": {
+    "@bookmarklets-a11y/build-tools": "*",
+    "@modelcontextprotocol/sdk": "^1.0.0"
+  },
+  "files": ["dist"],
+  "license": "MIT"
+}

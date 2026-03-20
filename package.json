@@ -1,0 +1,39 @@
+{
+  "name": "bookmarklets-a11y",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Accessibility bookmarklets for humans and AI agents",
+  "type": "module",
+  "workspaces": [
+    "packages/core",
+    "packages/build-tools",
+    "packages/bookmarklets/*",
+    "packages/mcp-server",
+    "packages/website"
+  ],
+  "scripts": {
+    "build": "npm run build --workspaces --if-present",
+    "build:core": "npm run build -w packages/core",
+    "build:bookmarklets": "npm run build -w packages/build-tools && node packages/build-tools/dist/cli.js",
+    "dev": "npm run dev -w packages/website",
+    "test": "vitest run",
+    "clean": "rm -rf packages/*/dist"
+  },
+  "devDependencies": {
+    "@types/node": "^25.3.3",
+    "esbuild": "^0.25.0",
+    "typescript": "^5.7.0",
+    "vitest": "^3.0.0"
+  },
+  "keywords": [
+    "accessibility",
+    "a11y",
+    "bookmarklet",
+    "audit",
+    "wcag",
+    "mcp",
+    "ai"
+  ],
+  "author": "",
+  "license": "MIT"
+}

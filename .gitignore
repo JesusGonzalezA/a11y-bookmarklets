@@ -1,0 +1,7 @@
+node_modules/
+dist/
+*.bookmarklet.js
+*.bookmarklet.txt
+.DS_Store
+.env
+.playwright-mcp
