@@ -2,13 +2,13 @@ import type { Issue } from "../../types.js";
 import {
   inaccessibleSheetsLine,
   renderOverlays,
-  renderSummaryPanel,
+  showResultPanel,
 } from "../shared/render-helpers.js";
 import type { ReducedTransparencyData } from "./types.js";
 
 const MAX_RENDERED = 40;
 
-export function renderReducedTransparency(data: ReducedTransparencyData, _issues: Issue[]): void {
+export function renderReducedTransparency(data: ReducedTransparencyData, issues: Issue[]): void {
   const hasQuery = data.hasMediaQuery;
 
   renderOverlays(
@@ -44,5 +44,7 @@ export function renderReducedTransparency(data: ReducedTransparencyData, _issues
   const sheetsLine = inaccessibleSheetsLine(data.inaccessibleSheets);
   if (sheetsLine) lines.push(sheetsLine);
 
-  renderSummaryPanel("Reduced Transparency Audit", lines);
+  showResultPanel("Reduced Transparency Audit", issues, {
+    summaryHtml: `<pre style="margin:4px 0 0; white-space:pre-wrap;">${lines.join("\n")}</pre>`,
+  });
 }

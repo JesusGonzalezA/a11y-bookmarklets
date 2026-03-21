@@ -1,8 +1,8 @@
 import type { Issue } from "../../types.js";
-import { renderHtmlPanel, renderOverlays } from "../shared/render-helpers.js";
+import { renderOverlays, showResultPanel } from "../shared/render-helpers.js";
 import type { ImageData } from "./types.js";
 
-export function renderImages(images: ImageData[], _issues: Issue[]): void {
+export function renderImages(images: ImageData[], issues: Issue[]): void {
   renderOverlays(
     images.map((img) => {
       if (img.alt === null && !img.ariaLabel) {
@@ -21,12 +21,11 @@ export function renderImages(images: ImageData[], _issues: Issue[]): void {
   const decorative = images.filter((i) => i.isDecorative).length;
   const withAlt = images.length - missing - decorative;
 
-  renderHtmlPanel(
-    `Images (${images.length})`,
-    `<div style="font-size:12px; margin-top:6px;">
+  showResultPanel(`Images (${images.length})`, issues, {
+    summaryHtml: `<div>
         <div style="color:#2ecc71">✓ With alt: ${withAlt}</div>
         <div style="color:#95a5a6">○ Decorative: ${decorative}</div>
         <div style="color:#e74c3c">✗ Missing alt: ${missing}</div>
       </div>`,
-  );
+  });
 }

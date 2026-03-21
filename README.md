@@ -58,6 +58,21 @@ Verifican si la página respeta las preferencias del sistema operativo del usuar
 | **Reduced Transparency** | Soporte de `prefers-reduced-transparency`, elementos semi-transparentes | 1.4.11 |
 | **Forced Colors** | Soporte de `forced-colors` y `prefers-contrast`, High Contrast Mode | 1.4.11, 1.4.3 |
 
+### Video y media
+
+| Bookmarklet | Qué comprueba | WCAG |
+|-------------|---------------|------|
+| **Video Controls** | Controles nativos y custom en `<video>` y `<audio>`, roles ARIA, accesibilidad por teclado | 1.2.1, 2.1.1, 4.1.2 |
+| **Autoplay** | Autoplay con audio, estado muted, controles de pausa/volumen | 1.4.2 |
+| **Captions** | Tracks de subtítulos/captions, validación src/srclang, videos embebidos | 1.2.2, 1.2.4 |
+| **Audio Description** | Tracks de audiodescripción, links a versiones alternativas | 1.2.3, 1.2.5 |
+
+### Meta tags y configuración
+
+| Bookmarklet | Qué comprueba | WCAG |
+|-------------|---------------|------|
+| **Viewport & Zoom** | Meta viewport: user-scalable, maximum-scale, reflow responsive | 1.4.4, 1.4.10 |
+
 ## Uso
 
 ### Como humano (bookmarklet en el navegador)

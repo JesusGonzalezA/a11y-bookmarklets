@@ -2,13 +2,13 @@ import type { Issue } from "../../types.js";
 import {
   inaccessibleSheetsLine,
   renderOverlays,
-  renderSummaryPanel,
+  showResultPanel,
 } from "../shared/render-helpers.js";
 import type { ReducedMotionData } from "./types.js";
 
 const MAX_RENDERED = 50;
 
-export function renderReducedMotion(data: ReducedMotionData, _issues: Issue[]): void {
+export function renderReducedMotion(data: ReducedMotionData, issues: Issue[]): void {
   const hasQuery = data.hasMediaQuery;
 
   renderOverlays(
@@ -33,5 +33,7 @@ export function renderReducedMotion(data: ReducedMotionData, _issues: Issue[]): 
   const sheetsLine = inaccessibleSheetsLine(data.inaccessibleSheets);
   if (sheetsLine) lines.push(sheetsLine);
 
-  renderSummaryPanel("Reduced Motion Audit", lines);
+  showResultPanel("Reduced Motion Audit", issues, {
+    summaryHtml: `<pre style="margin:4px 0 0; white-space:pre-wrap;">${lines.join("\n")}</pre>`,
+  });
 }

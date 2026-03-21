@@ -2,13 +2,13 @@ import type { Issue } from "../../types.js";
 import {
   inaccessibleSheetsLine,
   renderOverlays,
-  renderSummaryPanel,
+  showResultPanel,
 } from "../shared/render-helpers.js";
 import type { InvertedColorsData } from "./types.js";
 
 const MAX_RENDERED = 30;
 
-export function renderInvertedColors(data: InvertedColorsData, _issues: Issue[]): void {
+export function renderInvertedColors(data: InvertedColorsData, issues: Issue[]): void {
   renderOverlays(
     data.vulnerableElements.slice(0, MAX_RENDERED).map((entry) => {
       let color: string;
@@ -40,5 +40,7 @@ export function renderInvertedColors(data: InvertedColorsData, _issues: Issue[])
   const sheetsLine = inaccessibleSheetsLine(data.inaccessibleSheets);
   if (sheetsLine) lines.push(sheetsLine);
 
-  renderSummaryPanel("Inverted Colors Audit", lines);
+  showResultPanel("Inverted Colors Audit", issues, {
+    summaryHtml: `<pre style="margin:4px 0 0; white-space:pre-wrap;">${lines.join("\n")}</pre>`,
+  });
 }

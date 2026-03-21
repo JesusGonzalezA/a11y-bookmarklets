@@ -2,7 +2,12 @@
  * Shared rendering helpers — eliminate duplicated overlay + panel patterns.
  */
 
-import { addLabel, addOutline, showPanel } from "../../../infrastructure/overlay/OverlayManager.js";
+import { addLabel, addOutline } from "../../../infrastructure/overlay/OverlayManager.js";
+import {
+  createResultPanel,
+  type ResultPanelOptions,
+} from "../../../infrastructure/overlay/ResultPanel.js";
+import type { Issue } from "../../types.js";
 
 export interface OverlayEntry {
   selector: string;
@@ -21,21 +26,16 @@ export function renderOverlays(entries: OverlayEntry[]): void {
   }
 }
 
-/** Build and display a summary panel with a title and pre-formatted lines. */
-export function renderSummaryPanel(title: string, lines: string[]): void {
-  showPanel(`
-      <strong>${title}</strong>
-      <pre style="font-size:11px; margin:8px 0 0; white-space:pre-wrap;">${lines.join("\n")}</pre>
-    `);
+/** Display the interactive result panel with severity tabs and element highlighting. */
+export function showResultPanel(
+  title: string,
+  issues: Issue[],
+  options?: ResultPanelOptions,
+): HTMLElement {
+  return createResultPanel(title, issues, options);
 }
 
-/** Build and display a summary panel with custom HTML body. */
-export function renderHtmlPanel(title: string, bodyHtml: string): void {
-  showPanel(`
-      <strong>${title}</strong>
-      ${bodyHtml}
-    `);
-}
+
 
 /** Standard inaccessible sheets line for panel display. */
 export function inaccessibleSheetsLine(count: number): string | null {

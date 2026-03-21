@@ -1,10 +1,10 @@
 import { queryAll } from "../../../infrastructure/dom/DomUtils.js";
 import { addLabel, addOutline } from "../../../infrastructure/overlay/OverlayManager.js";
 import type { Issue } from "../../types.js";
-import { inaccessibleSheetsLine, renderSummaryPanel } from "../shared/render-helpers.js";
+import { inaccessibleSheetsLine, showResultPanel } from "../shared/render-helpers.js";
 import type { DarkModeData } from "./types.js";
 
-export function renderDarkMode(data: DarkModeData, _issues: Issue[]): void {
+export function renderDarkMode(data: DarkModeData, issues: Issue[]): void {
   // Highlight root color-scheme
   const root = document.documentElement;
   const rootCS = getComputedStyle(root).getPropertyValue("color-scheme").trim();
@@ -43,5 +43,7 @@ export function renderDarkMode(data: DarkModeData, _issues: Issue[]): void {
   const sheetsLine = inaccessibleSheetsLine(data.inaccessibleSheets);
   if (sheetsLine) lines.push(sheetsLine);
 
-  renderSummaryPanel("Dark Mode Audit", lines);
+  showResultPanel("Dark Mode Audit", issues, {
+    summaryHtml: `<pre style="margin:4px 0 0; white-space:pre-wrap;">${lines.join("\n")}</pre>`,
+  });
 }

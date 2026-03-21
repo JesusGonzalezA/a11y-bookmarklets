@@ -1,9 +1,9 @@
 import type { Issue } from "../../types.js";
-import { renderOverlays, renderSummaryPanel } from "../shared/render-helpers.js";
+import { renderOverlays, showResultPanel } from "../shared/render-helpers.js";
 import type { HeadingData } from "./types.js";
 import { HEADING_COLORS } from "./types.js";
 
-export function renderHeadings(headings: HeadingData[], _issues: Issue[]): void {
+export function renderHeadings(headings: HeadingData[], issues: Issue[]): void {
   renderOverlays(
     headings.map((h) => {
       const tag = `h${h.level}`;
@@ -19,5 +19,7 @@ export function renderHeadings(headings: HeadingData[], _issues: Issue[]): void 
     .map((h) => `${"  ".repeat(h.level - 1)}h${h.level}: ${h.text || "(empty)"}`)
     .join("\n");
 
-  renderSummaryPanel(`Headings (${headings.length})`, [outline]);
+  showResultPanel(`Headings (${headings.length})`, issues, {
+    summaryHtml: `<pre style="margin:4px 0 0; white-space:pre-wrap;">${outline}</pre>`,
+  });
 }
