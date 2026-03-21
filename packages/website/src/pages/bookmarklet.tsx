@@ -29,6 +29,10 @@ export function BookmarkletPage() {
 
   const entry = manifest?.find((b: { id: string }) => b.id === bookmarklet.id);
 
+  const currentIndex = bookmarklets.indexOf(bookmarklet);
+  const prev = currentIndex > 0 ? bookmarklets[currentIndex - 1] : null;
+  const next = currentIndex < bookmarklets.length - 1 ? bookmarklets[currentIndex + 1] : null;
+
   return (
     <div className="max-w-3xl mx-auto px-6 py-12">
       <nav aria-label="Breadcrumb" className="mb-8">
@@ -74,6 +78,12 @@ export function BookmarkletPage() {
             >
               Copy bookmarklet URL
             </Button>
+            <Link
+              to={`/${bookmarklet.id}/test`}
+              className={cn(buttonVariants({ variant: "outline" }))}
+            >
+              Try test page
+            </Link>
           </div>
         ) : (
           <p className="text-sm text-muted-foreground">
@@ -130,11 +140,38 @@ export function BookmarkletPage() {
         />
       </section>
 
-      <div className="pt-4">
-        <Link to="/" className={cn(buttonVariants({ variant: "ghost" }))}>
-          ← Back to all bookmarklets
-        </Link>
-      </div>
+      <Separator className="mb-8" />
+
+      <nav aria-label="Bookmarklet navigation" className="flex items-center justify-between gap-4">
+        <div>
+          {prev ? (
+            <Link
+              to={`/${prev.id}`}
+              className={cn(buttonVariants({ variant: "ghost" }), "gap-1")}
+            >
+              ← {prev.name}
+            </Link>
+          ) : (
+            <Link to="/" className={cn(buttonVariants({ variant: "ghost" }), "gap-1")}>
+              ← All bookmarklets
+            </Link>
+          )}
+        </div>
+        <div>
+          {next ? (
+            <Link
+              to={`/${next.id}`}
+              className={cn(buttonVariants({ variant: "ghost" }), "gap-1")}
+            >
+              {next.name} →
+            </Link>
+          ) : (
+            <Link to="/" className={cn(buttonVariants({ variant: "ghost" }), "gap-1")}>
+              All bookmarklets →
+            </Link>
+          )}
+        </div>
+      </nav>
     </div>
   );
 }

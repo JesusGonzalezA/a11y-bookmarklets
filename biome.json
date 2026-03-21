@@ -30,6 +30,22 @@
       "enabled": false
     }
   },
+  "overrides": [
+    {
+      "includes": ["packages/website/src/components/test-content/**"],
+      "linter": {
+        "rules": {
+          "a11y": "off",
+          "security": {
+            "noDangerouslySetInnerHtml": "off"
+          },
+          "suspicious": {
+            "noArrayIndexKey": "off"
+          }
+        }
+      }
+    }
+  ],
   "javascript": {
     "formatter": {
       "quoteStyle": "double",
