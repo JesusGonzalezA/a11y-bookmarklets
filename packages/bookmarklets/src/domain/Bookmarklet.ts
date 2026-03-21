@@ -19,7 +19,6 @@ import type {
   AuditOutput,
   AuditResult,
   BookmarkletMeta,
-  BookmarkletOptions,
   Issue,
 } from "./types.js";
 import { clearOverlays, onClearOverlays } from "../infrastructure/overlay/OverlayManager.js";
@@ -51,43 +50,35 @@ export abstract class Bookmarklet<T> {
   protected abstract render(data: T, issues: Issue[]): void;
 
   /** Template method — standard execution flow for every bookmarklet. */
-  run(options: BookmarkletOptions = {}): AuditResult {
-    const mode = options.mode ?? "both";
-
+  run(): AuditResult {
     clearOverlays();
 
     const { issues, data } = this.audit();
 
-    if (mode !== "data") {
-      this.render(data, issues);
-    }
+    this.render(data, issues);
 
     const result = buildResult(this.id, issues);
 
-    if (mode !== "visual") {
-      writeToConsole(result);
-    }
+    writeToConsole(result);
 
-    registerInWindow(this.id, result, () => this.run({ mode: "data" }));
+    registerInWindow(this.id, result, () => this.run());
 
     // Re-scan on resize so overlays stay aligned with reflowed elements
-    if (mode !== "data") {
-      const prev = resizeListeners.get(this.id);
-      if (prev) window.removeEventListener("resize", prev);
+    const prev = resizeListeners.get(this.id);
+    if (prev) window.removeEventListener("resize", prev);
 
-      let timer: ReturnType<typeof setTimeout>;
-      const handler = () => {
-        clearTimeout(timer);
-        timer = setTimeout(() => this.run(options), 300);
-      };
-      resizeListeners.set(this.id, handler);
-      window.addEventListener("resize", handler);
+    let timer: ReturnType<typeof setTimeout>;
+    const handler = () => {
+      clearTimeout(timer);
+      timer = setTimeout(() => this.run(), 300);
+    };
+    resizeListeners.set(this.id, handler);
+    window.addEventListener("resize", handler);
 
-      onClearOverlays(() => {
-        window.removeEventListener("resize", handler);
-        resizeListeners.delete(this.id);
-      });
-    }
+    onClearOverlays(() => {
+      window.removeEventListener("resize", handler);
+      resizeListeners.delete(this.id);
+    });
 
     return result;
   }

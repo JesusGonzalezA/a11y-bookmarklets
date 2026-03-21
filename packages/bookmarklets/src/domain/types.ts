@@ -33,12 +33,6 @@ export interface AuditResult {
   summary: AuditSummary;
 }
 
-export type BookmarkletMode = "visual" | "data" | "both";
-
-export interface BookmarkletOptions {
-  mode?: BookmarkletMode;
-}
-
 /** Output returned by each bookmarklet's audit() method. */
 export interface AuditOutput<T> {
   issues: Issue[];

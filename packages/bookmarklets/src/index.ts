@@ -40,8 +40,6 @@ export type {
   AuditSummary,
   BookmarkletCatalogEntry,
   BookmarkletMeta,
-  BookmarkletMode,
-  BookmarkletOptions,
   Issue,
   Severity,
 } from "./domain/types.js";
