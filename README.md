@@ -72,6 +72,38 @@ Verifican si la página respeta las preferencias del sistema operativo del usuar
 | Bookmarklet | Qué comprueba | WCAG |
 |-------------|---------------|------|
 | **Viewport & Zoom** | Meta viewport: user-scalable, maximum-scale, reflow responsive | 1.4.4, 1.4.10 |
+| **Language** | Atributo lang en HTML, validación BCP 47, idioma de partes | 3.1.1, 3.1.2 |
+| **Page Title** | Presencia y descriptividad del título, longitud, similitud con h1 | 2.4.2 |
+| **Meta Tags** | Charset, description, color-scheme, theme-color, http-equiv refresh | 2.4.2, 3.2.5, 1.4.10 |
+
+### Formularios
+
+| Bookmarklet | Qué comprueba | WCAG |
+|-------------|---------------|------|
+| **Form Labels** | Nombres accesibles: label, aria-label, aria-labelledby, title, placeholder | 1.3.1, 3.3.2, 4.1.2 |
+| **Autocomplete** | Atributos autocomplete en campos de identidad/financieros, tokens WHATWG | 1.3.5 |
+| **Form Errors** | Manejo de errores: aria-invalid, aria-errormessage, regiones alert | 3.3.1, 3.3.3 |
+| **Grouped Fields** | Uso de fieldset/legend, grupos de radio y checkbox | 1.3.1, 3.3.2 |
+
+### Links, botones y navegación
+
+| Bookmarklet | Qué comprueba | WCAG |
+|-------------|---------------|------|
+| **Links** | Links vacíos/genéricos, faux links, nombres accesibles, validez de anchors | 2.4.4, 4.1.2 |
+| **Buttons** | Nombres accesibles, faux buttons, cumplimiento label-in-name | 4.1.2, 2.5.3 |
+| **Skip Links** | Presencia de skip navigation, validez del target, posición como primer focusable | 2.4.1 |
+| **New Window Links** | Detección de target=_blank, aviso al usuario, rel=noopener | 3.2.5 |
+
+### Contenido y semántica
+
+| Bookmarklet | Qué comprueba | WCAG |
+|-------------|---------------|------|
+| **ARIA** | Validez de roles ARIA, propiedades requeridas, referencias ID rotas, roles redundantes | 4.1.2, 1.3.1 |
+| **Hidden Content** | aria-hidden, display:none, visibility:hidden, sr-only, opacity:0 | 1.3.2, 4.1.2 |
+| **Live Regions** | aria-live, roles implícitos live, aria-relevant, aria-atomic | 4.1.3 |
+| **Color Contrast** | Ratios de contraste de texto, umbrales AA/AAA, detección de texto grande | 1.4.3, 1.4.6 |
+| **Text Spacing** | Resiliencia al espaciado WCAG 1.4.12, detección overflow:hidden | 1.4.12 |
+| **Touch Targets** | Tamaño de elementos interactivos, mínimos 24×24 AA / 44×44 AAA | 2.5.8, 2.5.5 |
 
 ## Uso
 

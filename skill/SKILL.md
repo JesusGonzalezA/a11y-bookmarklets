@@ -1,6 +1,6 @@
 ---
 name: a11y-bookmarklets
-description: Use this skill when auditing web accessibility, running a11y checks, analyzing WCAG compliance, or when the user asks to check headings, landmarks, tab order, images, alt text, video captions, autoplay, audio description, viewport zoom, or semantic structure of a web page. Also use when the user says "audit accessibility", "check a11y", "WCAG audit", or "run bookmarklet".
+description: Use this skill when auditing web accessibility, running a11y checks, analyzing WCAG compliance, or when the user asks to check headings, landmarks, tab order, images, alt text, video captions, autoplay, audio description, viewport zoom, language, page title, forms, links, buttons, ARIA, color contrast, touch targets, or semantic structure of a web page. Also use when the user says "audit accessibility", "check a11y", "WCAG audit", or "run bookmarklet".
 ---
 
 # A11y Bookmarklets — Accessibility Audit Skill
@@ -44,6 +44,38 @@ Bookmarklets that verify whether the page respects OS-level user preferences. Th
 | ID | What it checks | WCAG | Reference |
 |----|---------------|------|----------|
 | `viewport-zoom` | Viewport meta: user-scalable, maximum-scale, responsive reflow | 1.4.4, 1.4.10 | [bookmarklets/viewport-zoom.md](bookmarklets/viewport-zoom.md) |
+| `language` | HTML lang attribute, BCP 47 validation, language of parts | 3.1.1, 3.1.2 | [bookmarklets/language.md](bookmarklets/language.md) |
+| `page-title` | Document title presence, descriptiveness, length, similarity to h1 | 2.4.2 | [bookmarklets/page-title.md](bookmarklets/page-title.md) |
+| `meta-tags` | Charset, description, color-scheme, theme-color, http-equiv refresh | 2.4.2, 3.2.5, 1.4.10 | [bookmarklets/meta-tags.md](bookmarklets/meta-tags.md) |
+
+### Forms
+
+| ID | What it checks | WCAG | Reference |
+|----|---------------|------|----------|
+| `form-labels` | Accessible names for form controls: label, aria-label, aria-labelledby, title, placeholder | 1.3.1, 3.3.2, 4.1.2 | [bookmarklets/form-labels.md](bookmarklets/form-labels.md) |
+| `autocomplete` | Autocomplete attributes on identity/financial fields, WHATWG token validation | 1.3.5 | [bookmarklets/autocomplete.md](bookmarklets/autocomplete.md) |
+| `form-errors` | Error handling: aria-invalid, aria-errormessage, aria-describedby, alert regions | 3.3.1, 3.3.3 | [bookmarklets/form-errors.md](bookmarklets/form-errors.md) |
+| `grouped-fields` | Fieldset/legend usage, radio groups, checkbox groups | 1.3.1, 3.3.2 | [bookmarklets/grouped-fields.md](bookmarklets/grouped-fields.md) |
+
+### Links, Buttons & Navigation
+
+| ID | What it checks | WCAG | Reference |
+|----|---------------|------|----------|
+| `links` | Empty/generic links, faux links, accessible names, anchor validity | 2.4.4, 4.1.2 | [bookmarklets/links.md](bookmarklets/links.md) |
+| `buttons` | Accessible names, faux buttons, label-in-name compliance | 4.1.2, 2.5.3 | [bookmarklets/buttons.md](bookmarklets/buttons.md) |
+| `skip-links` | Skip navigation presence, target validity, first-focusable position | 2.4.1 | [bookmarklets/skip-links.md](bookmarklets/skip-links.md) |
+| `new-window-links` | target=_blank detection, user warning, rel=noopener | 3.2.5 | [bookmarklets/new-window-links.md](bookmarklets/new-window-links.md) |
+
+### Content & Semantics
+
+| ID | What it checks | WCAG | Reference |
+|----|---------------|------|----------|
+| `aria` | ARIA role validity, required props, broken ID refs, redundant roles, aria-hidden misuse | 4.1.2, 1.3.1 | [bookmarklets/aria.md](bookmarklets/aria.md) |
+| `hidden-content` | aria-hidden, display:none, visibility:hidden, sr-only, opacity:0 | 1.3.2, 4.1.2 | [bookmarklets/hidden-content.md](bookmarklets/hidden-content.md) |
+| `live-regions` | aria-live, implicit live roles, aria-relevant, aria-atomic, output elements | 4.1.3 | [bookmarklets/live-regions.md](bookmarklets/live-regions.md) |
+| `color-contrast` | Text contrast ratios, AA/AAA thresholds, large text detection | 1.4.3, 1.4.6 | [bookmarklets/color-contrast.md](bookmarklets/color-contrast.md) |
+| `text-spacing` | WCAG 1.4.12 spacing resilience, overflow:hidden detection, line-height checks | 1.4.12 | [bookmarklets/text-spacing.md](bookmarklets/text-spacing.md) |
+| `touch-target` | Interactive element sizes, 24×24 AA / 44×44 AAA thresholds | 2.5.8, 2.5.5 | [bookmarklets/touch-target.md](bookmarklets/touch-target.md) |
 
 ## How to Audit a Page
 
@@ -85,16 +117,33 @@ You need access to the **Playwright MCP server** (`@playwright/mcp`) to control 
 2. **Landmarks** — page regions
 3. **Tab order** — keyboard navigation
 4. **Images** — alt text
-5. **Video controls** — media accessibility
-6. **Autoplay** — audio control
-7. **Captions** — subtitle tracks
-8. **Audio description** — described video
-9. **Viewport & Zoom** — zoom restrictions
-10. **Dark mode** — color scheme adaptation
-11. **Reduced motion** — animation fallbacks
-12. **Inverted colors** — media compensation
-13. **Reduced transparency** — opaque fallbacks
-14. **Forced colors** — High Contrast Mode
+5. **Links** — link purpose and validity
+6. **Buttons** — button accessibility
+7. **Skip links** — bypass blocks
+8. **Form labels** — form control names
+9. **Autocomplete** — input purpose
+10. **Form errors** — error identification
+11. **Grouped fields** — fieldset/legend
+12. **Language** — page and parts language
+13. **Page title** — descriptive title
+14. **Meta tags** — a11y meta configuration
+15. **ARIA** — role validity and references
+16. **Hidden content** — hidden content issues
+17. **Live regions** — status messages
+18. **Color contrast** — text contrast ratios
+19. **Text spacing** — spacing resilience
+20. **Touch targets** — target size
+21. **Video controls** — media accessibility
+22. **Autoplay** — audio control
+23. **Captions** — subtitle tracks
+24. **Audio description** — described video
+25. **Viewport & Zoom** — zoom restrictions
+26. **New window links** — target=_blank warnings
+27. **Dark mode** — color scheme adaptation
+28. **Reduced motion** — animation fallbacks
+29. **Inverted colors** — media compensation
+30. **Reduced transparency** — opaque fallbacks
+31. **Forced colors** — High Contrast Mode
 
 ## Severity Levels
 
