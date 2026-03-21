@@ -10,6 +10,12 @@ const STYLE_ID = "a11y-bookmarklet-styles";
 const HIGHLIGHT_CLASS = "a11y-highlight-active";
 
 let activeHighlight: HTMLElement | null = null;
+const cleanupCallbacks: Array<() => void> = [];
+
+/** Register a callback to run when overlays are cleared. */
+export function onClearOverlays(cb: () => void): void {
+  cleanupCallbacks.push(cb);
+}
 
 export function clearOverlays(): void {
   activeHighlight = null;
@@ -17,6 +23,7 @@ export function clearOverlays(): void {
     el.remove();
   }
   document.getElementById(STYLE_ID)?.remove();
+  for (const cb of cleanupCallbacks.splice(0)) cb();
 }
 
 /** Temporarily highlight a DOM element matched by selector. */
@@ -100,7 +107,8 @@ export function injectBaseStyles(): void {
       font: 15px/1.5 system-ui, sans-serif;
       border-radius: 10px;
       width: 520px;
-      max-height: 85vh;
+      max-width: calc(100vw - 24px);
+      max-height: min(85vh, calc(100vh - 24px));
       display: flex;
       flex-direction: column;
       box-shadow: 0 4px 24px rgba(0,0,0,.5);
@@ -116,6 +124,7 @@ export function injectBaseStyles(): void {
       border-radius: 10px 10px 0 0;
       min-height: 44px;
       flex-shrink: 0;
+      gap: 4px;
     }
     .a11y-rp-header:active { cursor: grabbing; }
     .a11y-rp-title {
@@ -146,6 +155,57 @@ export function injectBaseStyles(): void {
       color: #fff;
       outline: 2px solid #facc15;
       outline-offset: -2px;
+    }
+    .a11y-rp-minimize {
+      background: none;
+      border: none;
+      color: #c0c4cc;
+      font-size: 20px;
+      cursor: pointer;
+      padding: 8px 10px;
+      border-radius: 4px;
+      line-height: 1;
+      flex-shrink: 0;
+      min-width: 44px;
+      min-height: 44px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .a11y-rp-minimize:hover,
+    .a11y-rp-minimize:focus-visible {
+      background: rgba(255,255,255,.12);
+      color: #fff;
+      outline: 2px solid #facc15;
+      outline-offset: -2px;
+    }
+    /* Collapsed floating button */
+    [${ATTR}].a11y-rp-fab {
+      position: fixed;
+      bottom: 16px;
+      right: 16px;
+      z-index: 2147483647;
+      background: #16213e;
+      color: #fff;
+      border: 2px solid rgba(255,255,255,.15);
+      border-radius: 28px;
+      padding: 10px 20px;
+      font: 600 14px/1.4 system-ui, sans-serif;
+      cursor: pointer;
+      box-shadow: 0 4px 20px rgba(0,0,0,.5);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      min-height: 44px;
+      transition: background .15s, box-shadow .15s;
+    }
+    [${ATTR}].a11y-rp-fab:hover {
+      background: #1a1a2e;
+      box-shadow: 0 4px 28px rgba(0,0,0,.6);
+    }
+    [${ATTR}].a11y-rp-fab:focus-visible {
+      outline: 2px solid #facc15;
+      outline-offset: 2px;
     }
     .a11y-rp-summary-wrapper {
       border-bottom: 1px solid rgba(255,255,255,.1);
@@ -331,6 +391,25 @@ export function injectBaseStyles(): void {
     }
     .a11y-rp-resize:hover::after {
       border-color: rgba(255,255,255,.5);
+    }
+
+    /* Small screens */
+    @media (max-height: 700px) {
+      [${ATTR}].a11y-result-panel {
+        max-height: 50vh;
+        bottom: 8px;
+        right: 8px;
+      }
+      .a11y-rp-summary {
+        max-height: min(120px, 20vh);
+      }
+    }
+    @media (max-width: 500px) {
+      [${ATTR}].a11y-result-panel {
+        width: calc(100vw - 16px);
+        bottom: 8px;
+        right: 8px;
+      }
     }
   `;
   document.head.appendChild(style);

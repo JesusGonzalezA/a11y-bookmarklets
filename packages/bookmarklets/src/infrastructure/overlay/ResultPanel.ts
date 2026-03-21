@@ -65,6 +65,17 @@ export function createResultPanel(
   });
   header.appendChild(closeBtn);
 
+  // Minimize button
+  const minBtn = document.createElement("button");
+  minBtn.className = "a11y-rp-minimize";
+  minBtn.setAttribute("aria-label", "Minimize panel");
+  minBtn.textContent = "⏤";
+  minBtn.addEventListener("click", () => {
+    collapsePanel(panel, title);
+  });
+  // Insert minimize before close
+  header.insertBefore(minBtn, closeBtn);
+
   // -- Optional summary (collapsible) --
   if (options.summaryHtml) {
     const summaryWrapper = document.createElement("div");
@@ -96,6 +107,14 @@ export function createResultPanel(
     summaryWrapper.appendChild(divider);
 
     panel.appendChild(summaryWrapper);
+
+    // Auto-collapse summary on small screens
+    if (window.innerHeight < 700) {
+      toggleBtn.setAttribute("aria-expanded", "false");
+      summaryContent.hidden = true;
+      const icon = toggleBtn.querySelector(".a11y-rp-toggle-icon");
+      if (icon) icon.textContent = "▸";
+    }
   }
 
   // -- Tabs --
@@ -318,6 +337,28 @@ function scrollToElement(selector: string): void {
 }
 
 // ---------------------------------------------------------------------------
+// Collapse / expand
+// ---------------------------------------------------------------------------
+
+function collapsePanel(panel: HTMLElement, title: string): void {
+  panel.style.display = "none";
+
+  const fab = document.createElement("button");
+  fab.setAttribute(ATTR, "");
+  fab.className = "a11y-rp-fab";
+  fab.setAttribute("aria-label", `Show ${title} panel`);
+  fab.innerHTML = `<span style="font-size:18px">♿</span> ${escapeHtml(title)}`;
+  fab.addEventListener("click", () => {
+    fab.remove();
+    panel.style.display = "";
+    const firstTab = panel.querySelector<HTMLElement>('[role="tab"]');
+    firstTab?.focus();
+  });
+  document.body.appendChild(fab);
+  fab.focus();
+}
+
+// ---------------------------------------------------------------------------
 // Drag
 // ---------------------------------------------------------------------------
 
@@ -446,8 +487,8 @@ function setupResize(panel: HTMLElement, handle: HTMLElement): void {
 
   function onPointerMove(e: PointerEvent): void {
     if (!resizing) return;
-    const newW = Math.max(280, startW + (e.clientX - startX));
-    const newH = Math.max(150, startH + (e.clientY - startY));
+    const newW = Math.max(200, startW + (e.clientX - startX));
+    const newH = Math.max(120, startH + (e.clientY - startY));
     panel.style.width = `${newW}px`;
     panel.style.height = `${newH}px`;
   }
@@ -499,10 +540,10 @@ function restorePosition(panel: HTMLElement): void {
       panel.style.right = "auto";
       panel.style.bottom = "auto";
     }
-    if (typeof data.width === "number" && data.width >= 280) {
+    if (typeof data.width === "number" && data.width >= 200) {
       panel.style.width = `${data.width}px`;
     }
-    if (typeof data.height === "number" && data.height >= 150) {
+    if (typeof data.height === "number" && data.height >= 120) {
       panel.style.height = `${data.height}px`;
       panel.style.maxHeight = "none";
     }

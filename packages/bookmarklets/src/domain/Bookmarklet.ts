@@ -22,12 +22,14 @@ import type {
   BookmarkletOptions,
   Issue,
 } from "./types.js";
-import { clearOverlays } from "../infrastructure/overlay/OverlayManager.js";
+import { clearOverlays, onClearOverlays } from "../infrastructure/overlay/OverlayManager.js";
 import {
   buildResult,
   writeToConsole,
   registerInWindow,
 } from "../infrastructure/reporter/AuditReporter.js";
+
+const resizeListeners = new Map<string, () => void>();
 
 export abstract class Bookmarklet<T> {
   readonly id: string;
@@ -67,6 +69,25 @@ export abstract class Bookmarklet<T> {
     }
 
     registerInWindow(this.id, result, () => this.run({ mode: "data" }));
+
+    // Re-scan on resize so overlays stay aligned with reflowed elements
+    if (mode !== "data") {
+      const prev = resizeListeners.get(this.id);
+      if (prev) window.removeEventListener("resize", prev);
+
+      let timer: ReturnType<typeof setTimeout>;
+      const handler = () => {
+        clearTimeout(timer);
+        timer = setTimeout(() => this.run(options), 300);
+      };
+      resizeListeners.set(this.id, handler);
+      window.addEventListener("resize", handler);
+
+      onClearOverlays(() => {
+        window.removeEventListener("resize", handler);
+        resizeListeners.delete(this.id);
+      });
+    }
 
     return result;
   }
