@@ -9,6 +9,7 @@
  */
 
 import { build, type BuildOptions } from "esbuild";
+import { transform } from "@swc/core";
 import { readFileSync, writeFileSync, mkdirSync } from "node:fs";
 import { basename, dirname, join } from "node:path";
 
@@ -44,13 +45,26 @@ export async function compileBookmarklet(options: CompileOptions): Promise<Compi
     minify: true,
     write: false,
     target: "es2020",
+    supported: {
+      "template-literal": false,
+      arrow: false,
+      "optional-chain": false,
+      "nullish-coalescing": false,
+    },
     define: {
       "process.env.NODE_ENV": '"production"',
     },
   };
 
   const result = await build(esbuildOptions);
-  const code = result.outputFiles![0].text;
+  const esbuildCode = result.outputFiles![0].text;
+
+  // Post-process with SWC to lower class syntax and const/let → var
+  const swcResult = await transform(esbuildCode, {
+    jsc: { target: "es5" },
+    minify: true,
+  });
+  const code = swcResult.code;
 
   let bookmarkletUrl: string;
 
@@ -74,6 +88,58 @@ export async function compileBookmarklet(options: CompileOptions): Promise<Compi
     bookmarkletUrl,
     files: { js: jsPath, bookmarklet: bookmarkletPath },
   };
+}
+
+/* ── Skill-script compiler ── */
+
+export interface SkillScriptOptions {
+  entryPoint: string;
+  outDir?: string;
+}
+
+export interface SkillScriptResult {
+  code: string;
+  files: { js: string };
+}
+
+/**
+ * Compiles a bookmarklet entry into a skill-script format:
+ * an arrow-function expression `() => { …code…; return window.__a11y; }`
+ * suitable for browser-injection tools (e.g. MCP evaluate_script).
+ *
+ * Uses modern JS (no ES5 down-level) since the target is always a
+ * recent Chrome instance controlled by DevTools / Playwright.
+ */
+export async function compileSkillScript(options: SkillScriptOptions): Promise<SkillScriptResult> {
+  const { entryPoint } = options;
+  const outDir = options.outDir ?? join(dirname(entryPoint), "..", "dist");
+
+  mkdirSync(outDir, { recursive: true });
+
+  const name = basename(entryPoint, ".ts");
+
+  const result = await build({
+    entryPoints: [entryPoint],
+    bundle: true,
+    format: "iife",
+    minify: true,
+    write: false,
+    target: "es2020",
+    define: {
+      "process.env.NODE_ENV": '"production"',
+    },
+  });
+
+  const iifeCode = result.outputFiles![0].text.trim();
+
+  // Wrap the IIFE inside an arrow function so tools can call it directly.
+  // The bookmarklet code stores its result in window.__a11y, so we return it.
+  const code = `() => {\n${iifeCode}\nreturn window.__a11y;\n}`;
+
+  const jsPath = join(outDir, `${name}.min.js`);
+  writeFileSync(jsPath, code, "utf-8");
+
+  return { code, files: { js: jsPath } };
 }
 
 export function readBookmarkletCode(distDir: string, name: string): string {

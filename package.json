@@ -6,7 +6,6 @@
   "type": "module",
   "workspaces": [
     "packages/bookmarklets",
-    "packages/mcp-server",
     "packages/website"
   ],
   "scripts": {
@@ -20,6 +19,7 @@
   },
   "devDependencies": {
     "@biomejs/biome": "^2.4.8",
+    "@swc/core": "^1.15.18",
     "@types/node": "^25.3.3",
     "esbuild": "^0.25.0",
     "typescript": "^5.7.0",
