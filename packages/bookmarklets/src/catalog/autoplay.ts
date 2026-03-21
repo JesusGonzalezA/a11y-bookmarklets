@@ -17,4 +17,5 @@ export const AUTOPLAY_CATALOG: BookmarkletCatalogEntry = {
   ],
   dataReturned:
     "Array of `{ selector, tagName, hasAutoplay, isMuted, duration, hasPauseControl, hasVolumeControl, src }` for every media element.",
+  tags: ["media", "video", "audio", "animation"],
 };

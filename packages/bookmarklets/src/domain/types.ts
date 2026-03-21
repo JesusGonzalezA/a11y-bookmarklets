@@ -51,4 +51,5 @@ export interface BookmarkletCatalogEntry extends BookmarkletMeta {
   details: string;
   checks: string[];
   dataReturned: string;
+  tags: string[];
 }

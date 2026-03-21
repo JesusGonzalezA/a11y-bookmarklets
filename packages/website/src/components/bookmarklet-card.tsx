@@ -25,7 +25,7 @@ export function BookmarkletCard({ bookmarklet, bookmarkletUrl }: BookmarkletCard
         <CardTitle className="text-lg">{bookmarklet.name}</CardTitle>
         <CardDescription>{bookmarklet.description}</CardDescription>
       </CardHeader>
-      <CardContent className="flex-1">
+      <CardContent className="flex-1 space-y-2">
         <ul className="flex flex-wrap gap-1.5 list-none p-0" aria-label="WCAG criteria">
           {bookmarklet.wcag.map((criterion) => (
             <li key={criterion}>
@@ -33,6 +33,15 @@ export function BookmarkletCard({ bookmarklet, bookmarkletUrl }: BookmarkletCard
             </li>
           ))}
         </ul>
+        {bookmarklet.tags.length > 0 && (
+          <ul className="flex flex-wrap gap-1.5 list-none p-0" aria-label="Tags">
+            {bookmarklet.tags.map((tag) => (
+              <li key={tag}>
+                <Badge variant="outline">{tag}</Badge>
+              </li>
+            ))}
+          </ul>
+        )}
       </CardContent>
       <CardFooter className="flex gap-2 flex-wrap">
         {bookmarkletUrl ? (

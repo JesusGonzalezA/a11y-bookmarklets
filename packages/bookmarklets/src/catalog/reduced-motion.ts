@@ -17,4 +17,5 @@ export const REDUCED_MOTION_CATALOG: BookmarkletCatalogEntry = {
   ],
   dataReturned:
     "Object with `{ hasMediaQuery, mediaRuleCount, animatedElements[], webAnimationsCount, inaccessibleSheets }` — each animated element includes selector, property type, and value.",
+  tags: ["motion", "animation", "preference"],
 };

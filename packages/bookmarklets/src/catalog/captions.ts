@@ -17,4 +17,5 @@ export const CAPTIONS_CATALOG: BookmarkletCatalogEntry = {
   ],
   dataReturned:
     "Array of `{ selector, src, tracks: [{ kind, src, srclang, label, isValid }], isEmbedded, embedType }` for every video element.",
+  tags: ["media", "video", "audio", "captions"],
 };

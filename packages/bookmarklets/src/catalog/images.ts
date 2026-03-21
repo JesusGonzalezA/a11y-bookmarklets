@@ -16,4 +16,5 @@ export const IMAGES_CATALOG: BookmarkletCatalogEntry = {
   ],
   dataReturned:
     "Array of `{ selector, alt, isDecorative, hasFigcaption, src, role }` for every image.",
+  tags: ["images", "alt text", "semantic"],
 };

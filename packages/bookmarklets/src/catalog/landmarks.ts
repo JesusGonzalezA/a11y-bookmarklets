@@ -16,4 +16,5 @@ export const LANDMARKS_CATALOG: BookmarkletCatalogEntry = {
   ],
   dataReturned:
     "Array of `{ role, label, selector, element }` for every landmark found, plus issues flagging missing or duplicate landmarks.",
+  tags: ["structure", "semantic", "navigation"],
 };

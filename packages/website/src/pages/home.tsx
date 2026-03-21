@@ -22,7 +22,11 @@ export function HomePage() {
   const query = search.toLowerCase();
   const filteredBookmarklets = query
     ? bookmarklets.filter(
-        (b) => b.name.toLowerCase().includes(query) || b.description.toLowerCase().includes(query),
+        (b) =>
+          b.name.toLowerCase().includes(query) ||
+          b.description.toLowerCase().includes(query) ||
+          b.tags.some((tag) => tag.toLowerCase().includes(query)) ||
+          b.wcag.some((criterion) => `wcag ${criterion}`.includes(query)),
       )
     : bookmarklets;
 

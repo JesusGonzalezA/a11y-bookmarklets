@@ -17,4 +17,5 @@ export const REDUCED_TRANSPARENCY_CATALOG: BookmarkletCatalogEntry = {
   ],
   dataReturned:
     "Object with `{ hasMediaQuery, mediaRuleCount, transparentElements[], inaccessibleSheets }` — each element includes selector, property, and value.",
+  tags: ["visual", "transparency", "preference"],
 };

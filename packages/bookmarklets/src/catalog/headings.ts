@@ -16,4 +16,5 @@ export const HEADINGS_CATALOG: BookmarkletCatalogEntry = {
   ],
   dataReturned:
     "Array of `{ level, text, selector }` for every heading, plus issues with severity, WCAG references, and suggestions.",
+  tags: ["structure", "semantic", "navigation"],
 };

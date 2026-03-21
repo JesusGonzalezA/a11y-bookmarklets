@@ -8,6 +8,7 @@ export const VIEWPORT_ZOOM_CATALOG: BookmarkletCatalogEntry = {
   wcag: ["1.4.4", "1.4.10"],
   details:
     'Reads <meta name="viewport"> and analyzes its directives. Detects restrictions: user-scalable=no, maximum-scale < 2 (below 200% required by WCAG), minimum-scale = maximum-scale (locked zoom). Reports each directive and its accessibility impact.',
+  tags: ["zoom", "mobile", "responsive"],
   checks: [
     "user-scalable=no or user-scalable=0 (zoom disabled — violation)",
     "maximum-scale < 2 (below 200% zoom — violation)",

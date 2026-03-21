@@ -18,4 +18,5 @@ export const FORCED_COLORS_CATALOG: BookmarkletCatalogEntry = {
   ],
   dataReturned:
     "Object with `{ hasForcedColorsQuery, hasPrefersContrastQuery, isForcedColorsActive, affectedElements[], forcedColorAdjustElements, inaccessibleSheets }` — each affected element includes selector, affected properties, and forced-color-adjust status.",
+  tags: ["color", "contrast", "preference", "high contrast"],
 };

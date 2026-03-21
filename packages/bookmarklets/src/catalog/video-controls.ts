@@ -16,4 +16,5 @@ export const VIDEO_CONTROLS_CATALOG: BookmarkletCatalogEntry = {
   ],
   dataReturned:
     "Array of `{ selector, tagName, hasNativeControls, hasCustomControls, src, duration, customControlDetails }` for every media element.",
+  tags: ["media", "video", "keyboard", "controls"],
 };

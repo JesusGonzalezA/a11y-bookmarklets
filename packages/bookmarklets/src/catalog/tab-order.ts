@@ -15,4 +15,5 @@ export const TAB_ORDER_CATALOG: BookmarkletCatalogEntry = {
   ],
   dataReturned:
     "Array of `{ index, tabindex, selector, element, tag, role, label }` for every focusable element.",
+  tags: ["keyboard", "focus", "navigation"],
 };

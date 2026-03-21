@@ -17,4 +17,5 @@ export const DARK_MODE_CATALOG: BookmarkletCatalogEntry = {
   ],
   dataReturned:
     "Object with `{ darkRules, lightRules, hasColorSchemeMeta, hasColorSchemeCSS, inaccessibleSheets }` plus issues with severity, WCAG references, and suggestions.",
+  tags: ["color", "contrast", "preference", "color scheme"],
 };

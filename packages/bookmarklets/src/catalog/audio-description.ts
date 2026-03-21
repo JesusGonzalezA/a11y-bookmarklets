@@ -16,4 +16,5 @@ export const AUDIO_DESCRIPTION_CATALOG: BookmarkletCatalogEntry = {
   ],
   dataReturned:
     "Array of `{ selector, src, hasDescriptionTrack, hasAlternativeLink, alternativeLinkText, duration, isMuted }` for every video.",
+  tags: ["media", "video", "audio description"],
 };

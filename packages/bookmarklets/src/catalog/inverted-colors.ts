@@ -17,4 +17,5 @@ export const INVERTED_COLORS_CATALOG: BookmarkletCatalogEntry = {
   ],
   dataReturned:
     "Object with `{ hasMediaQuery, mediaRuleCount, vulnerableElements[], inaccessibleSheets }` — each element includes selector, type, and whether compensation exists.",
+  tags: ["color", "images", "preference"],
 };
