@@ -386,11 +386,11 @@ export function injectBaseStyles(): void {
       right: 4px;
       width: 8px;
       height: 8px;
-      border-right: 2px solid rgba(255,255,255,.25);
-      border-bottom: 2px solid rgba(255,255,255,.25);
+      border-right: 2px solid rgba(255,255,255);
+      border-bottom: 2px solid rgba(255,255,255);
     }
     .a11y-rp-resize:hover::after {
-      border-color: rgba(255,255,255,.5);
+      border-color: rgba(255,255,255);
     }
 
     /* Small screens */

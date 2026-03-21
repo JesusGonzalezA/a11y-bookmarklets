@@ -251,6 +251,12 @@ function buildTabs(
 
       // Click to scroll to element
       item.addEventListener("click", () => scrollToElement(issue.selector));
+      item.addEventListener("keydown", (e: KeyboardEvent) => {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          scrollToElement(issue.selector);
+        }
+      });
 
       listbox.appendChild(item);
     }
