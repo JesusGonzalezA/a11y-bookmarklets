@@ -30,15 +30,15 @@ color, contrast, preference, high contrast
 
 ## How to Execute
 
-1. Inject the bookmarklet — pass the entire content of `skill/scripts/forced-colors.min.js` to `evaluate_script` (do NOT analyze the script code):
+1. Inject the bookmarklet — pass the entire content of `forced-colors.min.js` to `evaluate_script` (do NOT analyze the script code):
+```
+mcp_chrome-devtoo_evaluate_script({ expression: "<content of forced-colors.min.js>" })
+```
+2. Retrieve and analyze the result:
    ```
-   mcp_chrome-devtoo_evaluate_script({ expression: "<content of forced-colors.min.js>" })
-   ```
-
-
-2. Retrieve and analyze the JSON result:
-   ```
-   mcp_chrome-devtoo_evaluate_script({ expression: "JSON.stringify(window.__a11y)" })
+   mcp_chrome-devtoo_evaluate_script({
+     expression: "JSON.stringify(window.__a11y.forced-colors.lastResult)"
+   })
    ```
 
 ## Result Shape

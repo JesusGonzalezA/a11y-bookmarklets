@@ -27,15 +27,15 @@ meta, navigation, semantic
 
 ## How to Execute
 
-1. Inject the bookmarklet — pass the entire content of `skill/scripts/page-title.min.js` to `evaluate_script` (do NOT analyze the script code):
+1. Inject the bookmarklet — pass the entire content of `page-title.min.js` to `evaluate_script` (do NOT analyze the script code):
+```
+mcp_chrome-devtoo_evaluate_script({ expression: "<content of page-title.min.js>" })
+```
+2. Retrieve and analyze the result:
    ```
-   mcp_chrome-devtoo_evaluate_script({ expression: "<content of page-title.min.js>" })
-   ```
-
-
-2. Retrieve and analyze the JSON result:
-   ```
-   mcp_chrome-devtoo_evaluate_script({ expression: "JSON.stringify(window.__a11y)" })
+   mcp_chrome-devtoo_evaluate_script({
+     expression: "JSON.stringify(window.__a11y.page-title.lastResult)"
+   })
    ```
 
 ## Result Shape
