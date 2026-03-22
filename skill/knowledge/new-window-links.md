@@ -31,12 +31,8 @@ navigation, links, new-window
    mcp_chrome-devtoo_evaluate_script({ expression: "<content of new-window-links.min.js>" })
    ```
 
-2. Take a screenshot to see the visual overlays:
-   ```
-   mcp_chrome-devtoo_take_screenshot()
-   ```
 
-3. Retrieve and analyze the JSON result:
+2. Retrieve and analyze the JSON result:
    ```
    mcp_chrome-devtoo_evaluate_script({ expression: "JSON.stringify(window.__a11y)" })
    ```

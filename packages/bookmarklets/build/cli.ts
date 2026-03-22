@@ -12,20 +12,12 @@
 import { readdirSync, existsSync, writeFileSync, mkdirSync, copyFileSync } from "node:fs";
 import { resolve, join, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
-import { compileBookmarklet, compileSkillScript, type CompileResult } from "./compiler.js";
-import { BookmarkletCatalogEntry } from "../dist/domain/types.js";
+import { compileBookmarklet, compileSkillScript } from "./compiler.js";
+import { buildManifestEntry, writeManifest, type ManifestEntry } from "./manifest-generator.js";
+import { generateBookmarkletDoc } from "./knowledge-generator.js";
+import type { BookmarkletCatalogEntry } from "../dist/domain/types.js";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
-
-interface ManifestEntry {
-  id: string;
-  name: string;
-  description: string;
-  wcag: string[];
-  bookmarkletUrl: string;
-  jsFile: string;
-  size: number;
-}
 
 async function main() {
   const args = process.argv.slice(2);
@@ -33,14 +25,11 @@ async function main() {
   const mode = baseUrl ? "loader" : ("inline" as const);
   const filterName = args.find((a) => !a.startsWith("--") && a !== baseUrl);
 
-  // Entry points are in packages/bookmarklets/src/entry/
-  // __dirname is dist-build/ at runtime, so go up to packages/bookmarklets/
   const packageDir = resolve(__dirname, "..");
   const entryDir = resolve(packageDir, "src", "entry");
   const outDir = resolve(packageDir, "..", "..", "dist", "bookmarklets");
   mkdirSync(outDir, { recursive: true });
 
-  // Import catalog from the compiled dist/ (built by tsc before this script runs)
   const { BOOKMARKLET_CATALOG } = await import("../dist/catalog/index.js");
 
   const entries = readdirSync(entryDir)
@@ -64,39 +53,23 @@ async function main() {
 
     console.log(`📦 Building ${name}...`);
 
-    const catalogEntry = BOOKMARKLET_CATALOG.find((b) => b.id === name);
-
-    const result: CompileResult = await compileBookmarklet({
-      entryPoint,
-      outDir,
-      mode,
-      baseUrl,
-    });
-
-    manifest.push({
-      id: name,
-      name: catalogEntry?.name ?? name,
-      description: catalogEntry?.description ?? "",
-      wcag: catalogEntry?.wcag ?? [],
-      bookmarkletUrl: result.bookmarkletUrl,
-      jsFile: `${name}.min.js`,
-      size: result.code.length,
-    });
+    const catalogEntry = BOOKMARKLET_CATALOG.find((b: BookmarkletCatalogEntry) => b.id === name);
+    const result = await compileBookmarklet({ entryPoint, outDir, mode, baseUrl });
+    manifest.push(buildManifestEntry(name, result, catalogEntry));
 
     console.log(`   ✓ ${name}.min.js (${(result.code.length / 1024).toFixed(1)} KB)`);
   }
 
-  const manifestPath = join(outDir, "manifest.json");
-  writeFileSync(manifestPath, JSON.stringify(manifest, null, 2), "utf-8");
+  const manifestPath = writeManifest(manifest, outDir);
   console.log(`\n✅ Built ${manifest.length} bookmarklet(s) → ${outDir}`);
   console.log(`📄 Manifest: ${manifestPath}`);
 
-  // ── Compile skill scripts (arrow-function format for tool injection) ──
+  // ── Compile skill scripts ──
   const repoRoot = resolve(packageDir, "..", "..");
   const skillScriptsDir = resolve(repoRoot, "skill", "scripts");
-  const skillBookmarkletsDir = resolve(repoRoot, "skill", "knowledge");
+  const skillKnowledgeDir = resolve(repoRoot, "skill", "knowledge");
   mkdirSync(skillScriptsDir, { recursive: true });
-  mkdirSync(skillBookmarkletsDir, { recursive: true });
+  mkdirSync(skillKnowledgeDir, { recursive: true });
 
   for (const entry of manifest) {
     const entryPoint = join(entryDir, `${entry.id}.ts`);
@@ -112,99 +85,9 @@ async function main() {
       (b: BookmarkletCatalogEntry) => b.id === entry.id,
     );
     const doc = generateBookmarkletDoc(entry, catalogEntry);
-    writeFileSync(join(skillBookmarkletsDir, `${entry.id}.md`), doc, "utf-8");
+    writeFileSync(join(skillKnowledgeDir, `${entry.id}.md`), doc, "utf-8");
   }
-  console.log(`📝 Generated ${manifest.length} reference docs → ${skillBookmarkletsDir}`);
-}
-
-function generateBookmarkletDoc(
-  entry: ManifestEntry,
-  catalog?: BookmarkletCatalogEntry,
-): string {
-  const wcag = entry.wcag.map((w) => "- " + w).join("\n");
-  const checks = catalog?.checks?.map((c) => "- " + c).join("\n") || "- See source code";
-  const tags = catalog?.tags?.join(", ") || "";
-  const fence = "```";
-
-  const lines: string[] = [
-    "# " + entry.name,
-    "",
-    entry.description,
-    "",
-    "## WCAG Criteria",
-    "",
-    wcag,
-    "",
-    "## What It Checks",
-    "",
-    checks,
-    "",
-    "## Details",
-    "",
-    catalog?.details || entry.description,
-    "",
-    "## Data Returned",
-    "",
-    catalog?.dataReturned || "Standard AuditResult JSON with issues array and summary.",
-    "",
-  ];
-
-  if (tags) {
-    lines.push("## Tags", "", tags, "");
-  }
-
-  lines.push(
-    "## How to Execute",
-    "",
-    "1. Read the script file:",
-    "   " + fence,
-    "   read_file('skill/scripts/" + entry.id + ".min.js')",
-    "   " + fence,
-    "",
-    "2. Inject via Chrome DevTools MCP:",
-    "   " + fence,
-    "   mcp_chrome-devtoo_evaluate_script({",
-    '     expression: "<contents of ' + entry.id + '.min.js>"',
-    "   })",
-    "   " + fence,
-    "",
-    "3. Retrieve the result:",
-    "   " + fence,
-    "   mcp_chrome-devtoo_evaluate_script({",
-    "     expression: \"JSON.stringify(window.__a11y)\"",
-    "   })",
-    "   " + fence,
-    "",
-    "4. Take a screenshot to see the visual overlays:",
-    "   " + fence,
-    "   mcp_chrome-devtoo_take_screenshot()",
-    "   " + fence,
-    "",
-    "## Result Shape",
-    "",
-    fence + "json",
-    "{",
-    '  "bookmarklet": "' + entry.id + '",',
-    '  "url": "...",',
-    '  "timestamp": "ISO 8601",',
-    '  "issues": [',
-    "    {",
-    '      "severity": "error|warning|info|pass",',
-    '      "message": "Description",',
-    '      "selector": "CSS selector",',
-    '      "html": "Truncated outerHTML",',
-    '      "wcag": "criterion",',
-    '      "suggestion": "Fix",',
-    '      "data": {}',
-    "    }",
-    "  ],",
-    '  "summary": { "total": 0, "errors": 0, "warnings": 0, "passes": 0, "info": 0 }',
-    "}",
-    fence,
-    "",
-  );
-
-  return lines.join("\n");
+  console.log(`📝 Generated ${manifest.length} reference docs → ${skillKnowledgeDir}`);
 }
 
 main().catch((err) => {

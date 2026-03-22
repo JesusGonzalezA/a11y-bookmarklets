@@ -34,12 +34,8 @@ aria, live-region, dynamic
    mcp_chrome-devtoo_evaluate_script({ expression: "<content of live-regions.min.js>" })
    ```
 
-2. Take a screenshot to see the visual overlays:
-   ```
-   mcp_chrome-devtoo_take_screenshot()
-   ```
 
-3. Retrieve and analyze the JSON result:
+2. Retrieve and analyze the JSON result:
    ```
    mcp_chrome-devtoo_evaluate_script({ expression: "JSON.stringify(window.__a11y)" })
    ```
