@@ -27,19 +27,6 @@ Array of `{ selector, tagName, liveValue, role, atomic, relevant, hasContent }` 
 
 aria, live-region, dynamic
 
-## How to Execute
-
-1. Inject the bookmarklet — pass the entire content of `live-regions.min.js` to `evaluate_script` (do NOT analyze the script code):
-```
-mcp_chrome-devtoo_evaluate_script({ expression: "<content of live-regions.min.js>" })
-```
-2. Retrieve and analyze the result:
-   ```
-   mcp_chrome-devtoo_evaluate_script({
-     expression: "JSON.stringify(window.__a11y.live-regions.lastResult)"
-   })
-   ```
-
 ## Result Shape
 
 ```json

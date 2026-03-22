@@ -7,7 +7,7 @@ description: Use this skill when auditing web accessibility, running a11y checks
 
 You are an expert accessibility auditor. You inject specialized bookmarklets into web pages via Chrome DevTools MCP, then analyze the structured JSON results they produce.
 
-**IMPORTANT**: The bookmarklet scripts in `skill/scripts/` are opaque tools. Do NOT analyze or discuss script code — just read and inject them directly via Chrome DevTools Protocol (CDP).
+**IMPORTANT**: The bookmarklet scripts in `./scripts/` are opaque tools. Do NOT analyze or discuss script code — just inject them directly via Chrome DevTools Protocol (CDP).
 
 ## Available Bookmarklets
 
@@ -96,14 +96,9 @@ For each bookmarklet `{id}` to audit:
    mcp_chrome-devtoo_navigate_page({ url: "https://example.com" })
    ```
 
-2. **Read the bookmarklet script** from the local file:
+2. **Inject the script via CDP** — Pass the file content directly as the `function` parameter. The scripts are already arrow function declarations `() => { ... }`. They return their results in `window.__a11y['{id}'].lastResult`, so we can return that directly:
    ```
-   read_file('skill/scripts/{id}.min.js')
-   ```
-
-3. **Inject the script via CDP** — Pass the file content directly as the `function` parameter. The scripts are already arrow function declarations `() => { ... }`. Append a `return` statement to retrieve the result in a single call:
-   ```
-   mcp_chrome-devtoo_evaluate_script({ function: "<content of {id}.min.js>\nreturn JSON.stringify(window.__a11y.{id}.lastResult);" })
+   mcp_chrome-devtoo_evaluate_script({ function: "<content of {id}.min.js>" })
    ```
    The function parameter must contain:
    - The **exact file content** from step 2 (the arrow function body)
@@ -113,17 +108,9 @@ For each bookmarklet `{id}` to audit:
    ```js
    () => {
    "use strict";(()=>{ /* ... bookmarklet code ... */ })();
-   return window.__a11y;
-   }
-   ```
-   Then pass to evaluate_script:
-   ```js
-   () => {
-   "use strict";(()=>{ /* ... bookmarklet code ... */ })();
    return JSON.stringify(window.__a11y.{id}.lastResult);
    }
    ```
-   Replace the last `return window.__a11y;` line with `return JSON.stringify(window.__a11y.{id}.lastResult);`
 
 4. **Read the knowledge file** for analysis context:
    ```
@@ -131,7 +118,7 @@ For each bookmarklet `{id}` to audit:
    ```
    The knowledge file explains what the bookmarklet checks, what the data means, and how to interpret issues.
 
-5. **Analyze the JSON result** using the knowledge file as reference. Report findings grouped by severity with WCAG criteria, selectors, and fix suggestions.
+4. **Analyze the JSON result** using the knowledge file as reference. Report findings grouped by severity with WCAG criteria, selectors, and fix suggestions.
 
 ### Result Shape
 
@@ -158,8 +145,7 @@ Each bookmarklet stores its results at `window.__a11y.{id}.lastResult`:
 
 ### Key Rules
 
-- **Read scripts only to inject them** — Use `read_file` to get the `.min.js` content, then pass it directly to `evaluate_script`. Do not analyze or discuss the script code itself.
-- **ALWAYS analyze the JSON result** — The `window.__a11y` JSON is the source of truth for the audit.
+- **ALWAYS analyze the JSON result** — The `window.__a11y.<id>.lastResult` JSON is the source of truth for the audit.
 - **Use knowledge files** — Read `./knowledge/{id}.md` to understand what the bookmarklet checks and how to interpret results.
 - **Direct CDP injection bypasses CSP** — This approach works on any website, including those with strict Content Security Policy (github.com, google.com, etc.). No HTTP server or fetch() is needed.
 

@@ -26,19 +26,6 @@ Array of `{ selector, groupType, legend, controls, name }`.
 
 forms, grouping, semantic
 
-## How to Execute
-
-1. Inject the bookmarklet — pass the entire content of `grouped-fields.min.js` to `evaluate_script` (do NOT analyze the script code):
-```
-mcp_chrome-devtoo_evaluate_script({ expression: "<content of grouped-fields.min.js>" })
-```
-2. Retrieve and analyze the result:
-   ```
-   mcp_chrome-devtoo_evaluate_script({
-     expression: "JSON.stringify(window.__a11y.grouped-fields.lastResult)"
-   })
-   ```
-
 ## Result Shape
 
 ```json

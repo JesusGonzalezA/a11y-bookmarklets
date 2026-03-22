@@ -26,19 +26,6 @@ Array of `{ selector, tagName, hasAutoplay, isMuted, duration, hasPauseControl, 
 
 media, video, audio, animation
 
-## How to Execute
-
-1. Inject the bookmarklet — pass the entire content of `autoplay.min.js` to `evaluate_script` (do NOT analyze the script code):
-```
-mcp_chrome-devtoo_evaluate_script({ expression: "<content of autoplay.min.js>" })
-```
-2. Retrieve and analyze the result:
-   ```
-   mcp_chrome-devtoo_evaluate_script({
-     expression: "JSON.stringify(window.__a11y.autoplay.lastResult)"
-   })
-   ```
-
 ## Result Shape
 
 ```json

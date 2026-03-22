@@ -24,23 +24,6 @@ Array of `{ selector, text, href, hasWarning, hasNoopener, warningSource }`.
 
 navigation, links, new-window
 
-## How to Execute
-
-1. Inject the bookmarklet — pass the entire content of `skill/scripts/new-window-links.min.js` to `evaluate_script` (do NOT analyze the script code):
-   ```
-   mcp_chrome-devtoo_evaluate_script({ expression: "<content of new-window-links.min.js>" })
-   ```
-
-2. Take a screenshot to see the visual overlays:
-   ```
-   mcp_chrome-devtoo_take_screenshot()
-   ```
-
-3. Retrieve and analyze the JSON result:
-   ```
-   mcp_chrome-devtoo_evaluate_script({ expression: "JSON.stringify(window.__a11y)" })
-   ```
-
 ## Result Shape
 
 ```json

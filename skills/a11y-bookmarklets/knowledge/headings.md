@@ -26,19 +26,6 @@ Array of `{ level, text, selector }` for every heading, plus issues with severit
 
 structure, semantic, navigation
 
-## How to Execute
-
-1. Inject the bookmarklet — pass the entire content of `headings.min.js` to `evaluate_script` (do NOT analyze the script code):
-```
-mcp_chrome-devtoo_evaluate_script({ expression: "<content of headings.min.js>" })
-```
-2. Retrieve and analyze the result:
-   ```
-   mcp_chrome-devtoo_evaluate_script({
-     expression: "JSON.stringify(window.__a11y.headings.lastResult)"
-   })
-   ```
-
 ## Result Shape
 
 ```json

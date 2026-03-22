@@ -26,19 +26,6 @@ Array of `{ selector, tagName, role, accessibleName, visibleText, isEmpty, isFau
 
 interactive, buttons, keyboard
 
-## How to Execute
-
-1. Inject the bookmarklet — pass the entire content of `buttons.min.js` to `evaluate_script` (do NOT analyze the script code):
-```
-mcp_chrome-devtoo_evaluate_script({ expression: "<content of buttons.min.js>" })
-```
-2. Retrieve and analyze the result:
-   ```
-   mcp_chrome-devtoo_evaluate_script({
-     expression: "JSON.stringify(window.__a11y.buttons.lastResult)"
-   })
-   ```
-
 ## Result Shape
 
 ```json

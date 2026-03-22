@@ -26,23 +26,6 @@ Array of `{ selector, tagName, text, fontSize, fontWeight, foreground, backgroun
 
 color, contrast, visual
 
-## How to Execute
-
-1. Inject the bookmarklet — pass the entire content of `skill/scripts/color-contrast.min.js` to `evaluate_script` (do NOT analyze the script code):
-   ```
-   mcp_chrome-devtoo_evaluate_script({ expression: "<content of color-contrast.min.js>" })
-   ```
-
-2. Take a screenshot to see the visual overlays:
-   ```
-   mcp_chrome-devtoo_take_screenshot()
-   ```
-
-3. Retrieve and analyze the JSON result:
-   ```
-   mcp_chrome-devtoo_evaluate_script({ expression: "JSON.stringify(window.__a11y)" })
-   ```
-
 ## Result Shape
 
 ```json

@@ -26,19 +26,6 @@ Object with `{ charset, description, colorScheme, themeColor, httpRefresh, allMe
 
 meta, configuration, timing
 
-## How to Execute
-
-1. Inject the bookmarklet — pass the entire content of `meta-tags.min.js` to `evaluate_script` (do NOT analyze the script code):
-```
-mcp_chrome-devtoo_evaluate_script({ expression: "<content of meta-tags.min.js>" })
-```
-2. Retrieve and analyze the result:
-   ```
-   mcp_chrome-devtoo_evaluate_script({
-     expression: "JSON.stringify(window.__a11y.meta-tags.lastResult)"
-   })
-   ```
-
 ## Result Shape
 
 ```json

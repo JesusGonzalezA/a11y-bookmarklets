@@ -28,19 +28,6 @@ Object with `{ darkRules, lightRules, hasColorSchemeMeta, hasColorSchemeCSS, ina
 
 color, contrast, preference, color scheme
 
-## How to Execute
-
-1. Inject the bookmarklet — pass the entire content of `dark-mode.min.js` to `evaluate_script` (do NOT analyze the script code):
-```
-mcp_chrome-devtoo_evaluate_script({ expression: "<content of dark-mode.min.js>" })
-```
-2. Retrieve and analyze the result:
-   ```
-   mcp_chrome-devtoo_evaluate_script({
-     expression: "JSON.stringify(window.__a11y.dark-mode.lastResult)"
-   })
-   ```
-
 ## Result Shape
 
 ```json
