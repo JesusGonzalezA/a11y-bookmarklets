@@ -42,7 +42,7 @@ export function McpSection() {
           <p className="text-sm text-muted-foreground mt-2">
             See{" "}
             <a
-              href="https://github.com/user/a11y-bookmarklets/tree/main/skill"
+              href="https://github.com/JesusGonzalezA/a11y-bookmarklets/tree/main/skill"
               className="underline underline-offset-4 hover:text-foreground transition-colors"
               rel="noopener noreferrer"
             >
