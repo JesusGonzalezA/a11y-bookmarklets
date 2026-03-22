@@ -6,6 +6,7 @@ export {
   AUDIO_DESCRIPTION_CATALOG,
   AUTOCOMPLETE_CATALOG,
   AUTOPLAY_CATALOG,
+  AXE_CORE_CATALOG,
   BOOKMARKLET_CATALOG,
   BUTTONS_CATALOG,
   CAPTIONS_CATALOG,
@@ -35,9 +36,11 @@ export {
   VIDEO_CONTROLS_CATALOG,
   VIEWPORT_ZOOM_CATALOG,
 } from "./catalog/index.js";
+export { AsyncBookmarklet } from "./domain/AsyncBookmarklet.js";
 export { Bookmarklet } from "./domain/Bookmarklet.js";
 // Bookmarklets
 export { AriaBookmarklet } from "./domain/bookmarklets/AriaBookmarklet.js";
+export { AxeCoreBookmarklet } from "./domain/bookmarklets/AxeCoreBookmarklet.js";
 export { AudioDescriptionBookmarklet } from "./domain/bookmarklets/AudioDescriptionBookmarklet.js";
 export { AutocompleteBookmarklet } from "./domain/bookmarklets/AutocompleteBookmarklet.js";
 export { AutoplayBookmarklet } from "./domain/bookmarklets/AutoplayBookmarklet.js";

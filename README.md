@@ -105,6 +105,12 @@ Verifican si la página respeta las preferencias del sistema operativo del usuar
 | **Text Spacing** | Resiliencia al espaciado WCAG 1.4.12, detección overflow:hidden | 1.4.12 |
 | **Touch Targets** | Tamaño de elementos interactivos, mínimos 24×24 AA / 44×44 AAA | 2.5.8, 2.5.5 |
 
+### Herramientas externas
+
+| Bookmarklet | Qué comprueba | WCAG |
+|-------------|---------------|------|
+| **Axe Core** | Escaneo completo con axe-core: violations, incomplete checks, best practices | 4.1.2, 1.1.1, 1.3.1, 2.4.4, 3.1.1, 1.4.3 |
+
 ## Uso
 
 ### Como humano (bookmarklet en el navegador)

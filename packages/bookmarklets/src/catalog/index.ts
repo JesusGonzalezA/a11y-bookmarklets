@@ -2,6 +2,7 @@ import type { BookmarkletCatalogEntry } from "../domain/types.js";
 
 export { ARIA_CATALOG } from "./aria.js";
 export { AUDIO_DESCRIPTION_CATALOG } from "./audio-description.js";
+export { AXE_CORE_CATALOG } from "./axe-core.js";
 export { AUTOCOMPLETE_CATALOG } from "./autocomplete.js";
 export { AUTOPLAY_CATALOG } from "./autoplay.js";
 export { BUTTONS_CATALOG } from "./buttons.js";
@@ -34,6 +35,7 @@ export { VIEWPORT_ZOOM_CATALOG } from "./viewport-zoom.js";
 
 import { ARIA_CATALOG } from "./aria.js";
 import { AUDIO_DESCRIPTION_CATALOG } from "./audio-description.js";
+import { AXE_CORE_CATALOG } from "./axe-core.js";
 import { AUTOCOMPLETE_CATALOG } from "./autocomplete.js";
 import { AUTOPLAY_CATALOG } from "./autoplay.js";
 import { BUTTONS_CATALOG } from "./buttons.js";
@@ -103,4 +105,6 @@ export const BOOKMARKLET_CATALOG: BookmarkletCatalogEntry[] = [
   COLOR_CONTRAST_CATALOG,
   TEXT_SPACING_CATALOG,
   TOUCH_TARGET_CATALOG,
+  // Category 7: External Tools
+  AXE_CORE_CATALOG,
 ];

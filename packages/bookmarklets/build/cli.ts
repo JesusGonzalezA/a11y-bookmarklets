@@ -73,8 +73,12 @@ async function main() {
 
   for (const entry of manifest) {
     const entryPoint = join(entryDir, `${entry.id}.ts`);
-    console.log(`🔧 Skill script ${entry.id}...`);
-    await compileSkillScript({ entryPoint, outDir: skillScriptsDir });
+    const catalogEntry = BOOKMARKLET_CATALOG.find(
+      (b: BookmarkletCatalogEntry) => b.id === entry.id,
+    );
+    const isAsync = catalogEntry?.tags?.includes("async") ?? false;
+    console.log(`🔧 Skill script ${entry.id}${isAsync ? " (async)" : ""}...`);
+    await compileSkillScript({ entryPoint, outDir: skillScriptsDir, async: isAsync });
   }
   copyFileSync(manifestPath, join(skillScriptsDir, "manifest.json"));
   console.log(`📁 Built ${manifest.length} skill scripts → ${skillScriptsDir}`);

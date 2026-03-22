@@ -77,6 +77,12 @@ You are an expert accessibility auditor. You inject specialized bookmarklets int
 | `text-spacing` | WCAG 1.4.12 spacing resilience, overflow:hidden detection, line-height checks | 1.4.12 |
 | `touch-target` | Interactive element sizes, 24×24 AA / 44×44 AAA thresholds | 2.5.8, 2.5.5 |
 
+### External Tools
+
+| ID | What it checks | WCAG |
+|----|---------------|------|
+| `axe-core` | Comprehensive axe-core scan: WCAG 2.1 A/AA violations, incomplete checks, best practices (async — loads axe-core from CDN) | 4.1.2, 1.1.1, 1.3.1, 2.4.4, 3.1.1, 1.4.3 |
+
 ## How to Audit a Page
 
 ### Prerequisites
@@ -182,6 +188,7 @@ Each bookmarklet stores its results at `window.__a11y.{id}.lastResult`:
 29. `inverted-colors` — media compensation
 30. `reduced-transparency` — opaque fallbacks
 31. `forced-colors` — High Contrast Mode
+32. `axe-core` — comprehensive automated scan (async, loads CDN)
 
 ## Severity Levels
 

@@ -95,6 +95,8 @@ export async function compileBookmarklet(options: CompileOptions): Promise<Compi
 export interface SkillScriptOptions {
   entryPoint: string;
   outDir?: string;
+  /** When true, wraps the skill script in an async arrow function. */
+  async?: boolean;
 }
 
 export interface SkillScriptResult {
@@ -134,7 +136,10 @@ export async function compileSkillScript(options: SkillScriptOptions): Promise<S
 
   // Wrap the IIFE inside an arrow function so tools can call it directly.
   // The bookmarklet code stores its result in window.__a11y, so we return it.
-  const code = `() => {\n${iifeCode}\nreturn window.__a11y['${name}'].lastResult;\n}`;
+  // Async bookmarklets (e.g. axe-core) need an async wrapper + await.
+  const code = options.async
+    ? `async () => {\n${iifeCode}\nreturn window.__a11y['${name}'].lastResult;\n}`
+    : `() => {\n${iifeCode}\nreturn window.__a11y['${name}'].lastResult;\n}`;
 
   const jsPath = join(outDir, `${name}.min.js`);
   writeFileSync(jsPath, code, "utf-8");
