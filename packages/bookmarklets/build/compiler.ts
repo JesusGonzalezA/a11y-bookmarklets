@@ -5,7 +5,7 @@
  * and outputs:
  *   1. A minified `.js` file (for hosting / script-tag injection)
  *   2. A `.bookmarklet.js` file containing the `javascript:void(…)` URL
- *   3. A `manifest.json` with metadata for the website and MCP server
+ *   3. A `manifest.json` with metadata for the website
  */
 
 import { build, type BuildOptions } from "esbuild";
@@ -107,7 +107,7 @@ export interface SkillScriptResult {
 /**
  * Compiles a bookmarklet entry into a skill-script format:
  * an arrow-function expression `() => { …code…; return window.__a11y; }`
- * suitable for browser-injection tools (e.g. MCP evaluate_script).
+ * suitable for browser-injection tools (e.g. Playwright evaluate).
  *
  * Uses modern JS (no ES5 down-level) since the target is always a
  * recent Chrome instance controlled by DevTools / Playwright.
