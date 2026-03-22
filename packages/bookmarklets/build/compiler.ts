@@ -134,7 +134,7 @@ export async function compileSkillScript(options: SkillScriptOptions): Promise<S
 
   // Wrap the IIFE inside an arrow function so tools can call it directly.
   // The bookmarklet code stores its result in window.__a11y, so we return it.
-  const code = `() => {\n${iifeCode}\nreturn window.__a11y;\n}`;
+  const code = `() => {\n${iifeCode}\nreturn window.__a11y['${name}'].lastResult;\n}`;
 
   const jsPath = join(outDir, `${name}.min.js`);
   writeFileSync(jsPath, code, "utf-8");

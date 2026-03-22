@@ -38,19 +38,6 @@ export function generateBookmarkletDoc(
   }
 
   lines.push(
-    "## How to Execute",
-    "",
-    "1. Inject the bookmarklet — pass the entire content of `" + entry.id + ".min.js` to `evaluate_script` (do NOT analyze the script code):",
-   "```",
-   "mcp_chrome-devtoo_evaluate_script({ expression: \"<content of " + entry.id + ".min.js>\" })",
-   "```",
-    "2. Retrieve and analyze the result:",
-    "   " + fence,
-    "   mcp_chrome-devtoo_evaluate_script({",
-    "     expression: \"JSON.stringify(window.__a11y." + entry.id + ".lastResult)\"",
-    "   })",
-    "   " + fence,
-    "",
     "## Result Shape",
     "",
     fence + "json",
