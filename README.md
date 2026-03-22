@@ -4,7 +4,7 @@
 
 ## Concepto
 
-Los bookmarklets tradicionales de accesibilidad solo añaden overlays visuales a la página. Este proyecto los amplía para que **también devuelvan datos JSON estructurados**, permitiendo que agentes IA (vía MCP + Playwright) puedan ejecutarlos y razonar sobre los resultados.
+Los bookmarklets tradicionales de accesibilidad solo añaden overlays visuales a la página. Este proyecto los amplía para que **también devuelvan datos JSON estructurados**, permitiendo que agentes IA (vía Playwright) puedan ejecutarlos y razonar sobre los resultados.
 
 ```
 ┌─────────────────────────────────────────────────────┐
@@ -30,7 +30,6 @@ packages/
 │   ├── landmarks/  → Zonas semánticas (nav, main, footer...)
 │   ├── tab-order/  → Orden de tabulación
 │   └── images/     → Alt text de imágenes
-├── mcp-server/     → Servidor MCP para agentes IA
 └── website/        → Web para descargar bookmarklets
 skill/              → Definición de skill para skills.sh
 ```
@@ -129,25 +128,10 @@ Verifican si la página respeta las preferencias del sistema operativo del usuar
 3. Haz clic en el bookmarklet
 4. Verás overlays visuales sobre los elementos relevantes
 
-### Como agente IA (vía MCP)
-
-```json
-{
-  "mcpServers": {
-    "a11y-bookmarklets": {
-      "command": "npx",
-      "args": ["@bookmarklets-a11y/mcp-server"]
-    }
-  }
-}
-```
-
-El agente puede usar los tools del servidor MCP para ejecutar auditorías y recibir resultados JSON.
-
-### Programáticamente (browser_evaluate)
+### Como agente IA (vía Playwright)
 
 ```javascript
-// Desde Playwright MCP browser_evaluate
+// Desde Playwright browser_evaluate
 const result = await page.evaluate(() => {
   // El bookmarklet inyecta window.__a11y y devuelve datos
   return window.__a11y.headings.audit();
