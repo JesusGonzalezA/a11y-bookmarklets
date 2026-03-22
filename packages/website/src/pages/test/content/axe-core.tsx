@@ -173,14 +173,14 @@ export default function AxeCoreTest() {
             </p>
           </div>
 
-          {/* ERROR: Marquee element */}
-          <div className="mt-4">
-            <marquee>Scrolling announcement text</marquee>
-            <p className="text-sm text-gray-600 mt-1">
-              ↑ Deprecated <code>&lt;marquee&gt;</code> element — causes reading difficulty and is
-              not pausable (marquee).
-            </p>
-          </div>
+          {/* ERROR: Scrolling content via marquee (deprecated element) */}
+          <div className="mt-4" dangerouslySetInnerHTML={{
+            __html: `<marquee>Scrolling announcement text</marquee>
+              <p class="text-sm text-gray-600 mt-1">
+                ↑ Deprecated <code>&lt;marquee&gt;</code> element — causes reading difficulty and is
+                not pausable (marquee).
+              </p>`
+          }} />
         </section>
 
         {/* ── Correct examples ── */}
