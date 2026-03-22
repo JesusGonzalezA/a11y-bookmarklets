@@ -113,6 +113,7 @@ export function injectBaseStyles(): void {
       flex-direction: column;
       box-shadow: 0 4px 24px rgba(0,0,0,.5);
       overflow: hidden;
+      opacity: 1;
     }
     .a11y-rp-header {
       display: flex;
