@@ -22,7 +22,7 @@ export function Header() {
             Builder
           </Link>
           <a
-            href="https://github.com/user/a11y-bookmarklets"
+            href="https://github.com/JesusGonzalezA/a11y-bookmarklets"
             className="text-sm text-muted-foreground hover:text-foreground transition-colors"
             rel="noopener noreferrer"
           >
