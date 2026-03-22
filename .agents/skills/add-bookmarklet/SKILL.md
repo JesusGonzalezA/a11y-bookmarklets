@@ -185,42 +185,50 @@ export class {Id}Bookmarklet extends Bookmarklet<{TypeName}Data[]> {
 
 For async bookmarklets, use `AsyncBookmarklet<T>` and make `audit()` return `Promise<AuditOutput<T>>`.
 
-### Step 6 — Create Test Page
+### Step 6 — Create Test Page (React)
 
-Create `test-pages/{id}.html` — A minimal HTML page with examples of both passing and failing cases for your bookmarklet.
+Create `packages/website/src/pages/test/content/{id}.tsx` — A React component with examples of both passing and failing cases for your bookmarklet.
 
-```html
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>{Display Name} — Test Page</title>
-  <style>
-    body { font-family: system-ui; margin: 2rem; }
-    .pass { border: 2px solid green; padding: 1rem; margin: 1rem 0; }
-    .fail { border: 2px solid red; padding: 1rem; margin: 1rem 0; }
-  </style>
-</head>
-<body>
-  <h1>{Display Name} — Test Page</h1>
-  <p>Open DevTools, navigate to the bookmarklet URL, and check the overlays and console output.</p>
+```tsx
+export default function {PascalCase}Test() {
+  return (
+    <div>
+      <h2>{Display Name} Test Page</h2>
 
-  <div class="pass">
-    <h2>✓ Passing Example</h2>
-    <!-- Content that should PASS the audit -->
-  </div>
+      <div className="space-y-6 my-4">
+        {/* ERROR: Failing example */}
+        <div>
+          <h3>Failing Example Title</h3>
+          {/* Content that should FAIL the audit */}
+          <p className="text-sm text-gray-600 mt-1">
+            ↑ Explanation of why this fails.
+          </p>
+        </div>
 
-  <div class="fail">
-    <h2>✗ Failing Example</h2>
-    <!-- Content that should FAIL the audit -->
-  </div>
-</body>
-</html>
+        {/* CORRECT: Passing example */}
+        <div className="p-4 border border-green-200 bg-green-50 rounded">
+          <h3>Correct Example — Passing Title</h3>
+          {/* Content that should PASS the audit */}
+          <p className="text-sm text-gray-600 mt-2">
+            ✓ Explanation of why this passes.
+          </p>
+        </div>
+      </div>
+    </div>
+  );
+}
 ```
 
+Then register the component in `packages/website/src/pages/test/content/index.ts`:
+
+```typescript
+"{id}": lazy(() => import("./{id}")),
+```
+
+Add the entry in alphabetical order within the appropriate category block, keeping `"axe-core"` last.
+
 **Use this page to**:
-- Manually test the bookmarklet in your browser before building
+- Manually test the bookmarklet in the website dev server
 - Verify overlays appear correctly
 - Check console output and `window.__a11y['{id}'].lastResult` JSON
 - Document expected behavior for future developers

@@ -2,6 +2,7 @@
 
 // Catalog
 export {
+  A11Y_SNAPSHOT_CATALOG,
   ARIA_CATALOG,
   AUDIO_DESCRIPTION_CATALOG,
   AUTOCOMPLETE_CATALOG,
@@ -10,6 +11,7 @@ export {
   BOOKMARKLET_CATALOG,
   BUTTONS_CATALOG,
   CAPTIONS_CATALOG,
+  COGNITIVE_LOAD_CATALOG,
   COLOR_CONTRAST_CATALOG,
   DARK_MODE_CATALOG,
   FORCED_COLORS_CATALOG,
@@ -27,6 +29,8 @@ export {
   META_TAGS_CATALOG,
   NEW_WINDOW_LINKS_CATALOG,
   PAGE_TITLE_CATALOG,
+  PRINT_STYLES_CATALOG,
+  READING_ORDER_CATALOG,
   REDUCED_MOTION_CATALOG,
   REDUCED_TRANSPARENCY_CATALOG,
   SKIP_LINKS_CATALOG,
@@ -39,6 +43,7 @@ export {
 export { AsyncBookmarklet } from "./domain/AsyncBookmarklet.js";
 export { Bookmarklet } from "./domain/Bookmarklet.js";
 // Bookmarklets
+export { A11ySnapshotBookmarklet } from "./domain/bookmarklets/A11ySnapshotBookmarklet.js";
 export { AriaBookmarklet } from "./domain/bookmarklets/AriaBookmarklet.js";
 export { AxeCoreBookmarklet } from "./domain/bookmarklets/AxeCoreBookmarklet.js";
 export { AudioDescriptionBookmarklet } from "./domain/bookmarklets/AudioDescriptionBookmarklet.js";
@@ -46,6 +51,7 @@ export { AutocompleteBookmarklet } from "./domain/bookmarklets/AutocompleteBookm
 export { AutoplayBookmarklet } from "./domain/bookmarklets/AutoplayBookmarklet.js";
 export { ButtonsBookmarklet } from "./domain/bookmarklets/ButtonsBookmarklet.js";
 export { CaptionsBookmarklet } from "./domain/bookmarklets/CaptionsBookmarklet.js";
+export { CognitiveLoadBookmarklet } from "./domain/bookmarklets/CognitiveLoadBookmarklet.js";
 export { ColorContrastBookmarklet } from "./domain/bookmarklets/ColorContrastBookmarklet.js";
 export { DarkModeBookmarklet } from "./domain/bookmarklets/DarkModeBookmarklet.js";
 export { ForcedColorsBookmarklet } from "./domain/bookmarklets/ForcedColorsBookmarklet.js";
@@ -63,6 +69,8 @@ export { LiveRegionsBookmarklet } from "./domain/bookmarklets/LiveRegionsBookmar
 export { MetaTagsBookmarklet } from "./domain/bookmarklets/MetaTagsBookmarklet.js";
 export { NewWindowLinksBookmarklet } from "./domain/bookmarklets/NewWindowLinksBookmarklet.js";
 export { PageTitleBookmarklet } from "./domain/bookmarklets/PageTitleBookmarklet.js";
+export { PrintStylesBookmarklet } from "./domain/bookmarklets/PrintStylesBookmarklet.js";
+export { ReadingOrderBookmarklet } from "./domain/bookmarklets/ReadingOrderBookmarklet.js";
 export { ReducedMotionBookmarklet } from "./domain/bookmarklets/ReducedMotionBookmarklet.js";
 export { ReducedTransparencyBookmarklet } from "./domain/bookmarklets/ReducedTransparencyBookmarklet.js";
 export { SkipLinksBookmarklet } from "./domain/bookmarklets/SkipLinksBookmarklet.js";

@@ -1,5 +1,6 @@
 import type { BookmarkletCatalogEntry } from "../domain/types.js";
 
+export { A11Y_SNAPSHOT_CATALOG } from "./a11y-snapshot.js";
 export { ARIA_CATALOG } from "./aria.js";
 export { AUDIO_DESCRIPTION_CATALOG } from "./audio-description.js";
 export { AXE_CORE_CATALOG } from "./axe-core.js";
@@ -7,6 +8,7 @@ export { AUTOCOMPLETE_CATALOG } from "./autocomplete.js";
 export { AUTOPLAY_CATALOG } from "./autoplay.js";
 export { BUTTONS_CATALOG } from "./buttons.js";
 export { CAPTIONS_CATALOG } from "./captions.js";
+export { COGNITIVE_LOAD_CATALOG } from "./cognitive-load.js";
 export { COLOR_CONTRAST_CATALOG } from "./color-contrast.js";
 export { DARK_MODE_CATALOG } from "./dark-mode.js";
 export { FORCED_COLORS_CATALOG } from "./forced-colors.js";
@@ -24,6 +26,8 @@ export { LIVE_REGIONS_CATALOG } from "./live-regions.js";
 export { META_TAGS_CATALOG } from "./meta-tags.js";
 export { NEW_WINDOW_LINKS_CATALOG } from "./new-window-links.js";
 export { PAGE_TITLE_CATALOG } from "./page-title.js";
+export { PRINT_STYLES_CATALOG } from "./print-styles.js";
+export { READING_ORDER_CATALOG } from "./reading-order.js";
 export { REDUCED_MOTION_CATALOG } from "./reduced-motion.js";
 export { REDUCED_TRANSPARENCY_CATALOG } from "./reduced-transparency.js";
 export { SKIP_LINKS_CATALOG } from "./skip-links.js";
@@ -33,6 +37,7 @@ export { TOUCH_TARGET_CATALOG } from "./touch-target.js";
 export { VIDEO_CONTROLS_CATALOG } from "./video-controls.js";
 export { VIEWPORT_ZOOM_CATALOG } from "./viewport-zoom.js";
 
+import { A11Y_SNAPSHOT_CATALOG } from "./a11y-snapshot.js";
 import { ARIA_CATALOG } from "./aria.js";
 import { AUDIO_DESCRIPTION_CATALOG } from "./audio-description.js";
 import { AXE_CORE_CATALOG } from "./axe-core.js";
@@ -40,6 +45,7 @@ import { AUTOCOMPLETE_CATALOG } from "./autocomplete.js";
 import { AUTOPLAY_CATALOG } from "./autoplay.js";
 import { BUTTONS_CATALOG } from "./buttons.js";
 import { CAPTIONS_CATALOG } from "./captions.js";
+import { COGNITIVE_LOAD_CATALOG } from "./cognitive-load.js";
 import { COLOR_CONTRAST_CATALOG } from "./color-contrast.js";
 import { DARK_MODE_CATALOG } from "./dark-mode.js";
 import { FORCED_COLORS_CATALOG } from "./forced-colors.js";
@@ -57,6 +63,8 @@ import { LIVE_REGIONS_CATALOG } from "./live-regions.js";
 import { META_TAGS_CATALOG } from "./meta-tags.js";
 import { NEW_WINDOW_LINKS_CATALOG } from "./new-window-links.js";
 import { PAGE_TITLE_CATALOG } from "./page-title.js";
+import { PRINT_STYLES_CATALOG } from "./print-styles.js";
+import { READING_ORDER_CATALOG } from "./reading-order.js";
 import { REDUCED_MOTION_CATALOG } from "./reduced-motion.js";
 import { REDUCED_TRANSPARENCY_CATALOG } from "./reduced-transparency.js";
 import { SKIP_LINKS_CATALOG } from "./skip-links.js";
@@ -105,6 +113,11 @@ export const BOOKMARKLET_CATALOG: BookmarkletCatalogEntry[] = [
   COLOR_CONTRAST_CATALOG,
   TEXT_SPACING_CATALOG,
   TOUCH_TARGET_CATALOG,
-  // Category 7: External Tools
+  // Category 7: Advanced / Wild Card
+  READING_ORDER_CATALOG,
+  A11Y_SNAPSHOT_CATALOG,
+  COGNITIVE_LOAD_CATALOG,
+  PRINT_STYLES_CATALOG,
+  // Category 8: External Tools
   AXE_CORE_CATALOG,
 ];

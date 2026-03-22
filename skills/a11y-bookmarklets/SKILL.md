@@ -83,6 +83,15 @@ You are an expert accessibility auditor. You inject specialized bookmarklets int
 |----|---------------|------|
 | `axe-core` | Comprehensive axe-core scan: WCAG 2.1 A/AA violations, incomplete checks, best practices (async — loads axe-core from CDN) | 4.1.2, 1.1.1, 1.3.1, 2.4.4, 3.1.1, 1.4.3 |
 
+### Advanced / Wild Card
+
+| ID | What it checks | WCAG |
+|----|---------------|------|
+| `reading-order` | DOM order vs visual layout order, CSS order reordering, absolute positioning, Kendall tau correlation | 1.3.2, 2.4.3 |
+| `a11y-snapshot` | Complete JSON snapshot: headings, landmarks, images, forms, links, buttons, ARIA, media, meta, stats | 1.1.1, 1.3.1, 2.4.1, 2.4.2, 2.4.4, 3.1.1, 4.1.2 |
+| `cognitive-load` | Infinite animations, autoplay media, modals/popups, auto-carousels, CTA density, text density | 2.2.2, 2.3.1 |
+| `print-styles` | @media print rules, hidden content, link URL revelation, background images, nav visibility | 1.1.1, 1.3.2 |
+
 ## How to Audit a Page
 
 ### Prerequisites
@@ -188,7 +197,11 @@ Each bookmarklet stores its results at `window.__a11y.{id}.lastResult`:
 29. `inverted-colors` — media compensation
 30. `reduced-transparency` — opaque fallbacks
 31. `forced-colors` — High Contrast Mode
-32. `axe-core` — comprehensive automated scan (async, loads CDN)
+32. `reading-order` — DOM vs visual order
+33. `cognitive-load` — page cognitive burden
+34. `print-styles` — print stylesheet audit
+35. `a11y-snapshot` — comprehensive data snapshot for AI analysis
+36. `axe-core` — comprehensive automated scan (async, loads CDN)
 
 ## Severity Levels
 

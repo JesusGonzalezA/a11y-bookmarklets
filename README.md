@@ -111,6 +111,15 @@ Verifican si la página respeta las preferencias del sistema operativo del usuar
 |-------------|---------------|------|
 | **Axe Core** | Escaneo completo con axe-core: violations, incomplete checks, best practices | 4.1.2, 1.1.1, 1.3.1, 2.4.4, 3.1.1, 1.4.3 |
 
+### Ideas avanzadas / Wild Card
+
+| Bookmarklet | Qué comprueba | WCAG |
+|-------------|---------------|------|
+| **Reading Order** | Orden DOM vs orden visual, CSS order, posicionamiento absoluto, Kendall tau | 1.3.2, 2.4.3 |
+| **A11y Snapshot** | Snapshot JSON completo: headings, landmarks, imágenes, forms, links, ARIA, media, stats | 1.1.1, 1.3.1, 2.4.1, 2.4.2, 2.4.4, 3.1.1, 4.1.2 |
+| **Cognitive Load** | Animaciones infinitas, autoplay, modals, carruseles, CTAs, densidad de texto | 2.2.2, 2.3.1 |
+| **Print Styles** | @media print, contenido oculto, URLs de links, imágenes de fondo, navegación | 1.1.1, 1.3.2 |
+
 ## Uso
 
 ### Como humano (bookmarklet en el navegador)

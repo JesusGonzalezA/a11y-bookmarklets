@@ -32,5 +32,9 @@ export const testContentMap: Record<string, React.LazyExoticComponent<ComponentT
   "color-contrast": lazy(() => import("./color-contrast")),
   "text-spacing": lazy(() => import("./text-spacing")),
   "touch-target": lazy(() => import("./touch-target")),
+  "reading-order": lazy(() => import("./reading-order")),
+  "a11y-snapshot": lazy(() => import("./a11y-snapshot")),
+  "cognitive-load": lazy(() => import("./cognitive-load")),
+  "print-styles": lazy(() => import("./print-styles")),
   "axe-core": lazy(() => import("./axe-core")),
 };
