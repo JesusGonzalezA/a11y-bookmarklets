@@ -24,7 +24,7 @@
   },
   "scripts": {
     "build": "tsc -p tsconfig.json && tsc -p tsconfig.build.json",
-    "build:bookmarklets": "tsc -p tsconfig.build.json && node dist-build/cli.js"
+    "build:bookmarklets": "tsc -p tsconfig.json && tsc -p tsconfig.build.json && node dist-build/cli.js"
   },
   "dependencies": {
     "esbuild": "^0.25.0"
