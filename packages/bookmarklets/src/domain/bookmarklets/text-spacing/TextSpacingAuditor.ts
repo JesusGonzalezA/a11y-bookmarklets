@@ -132,8 +132,8 @@ export function auditTextSpacing(): AuditOutput<TextSpacingData[]> {
     }
   }
 
-  // Remove the test stylesheet
-  styleEl.remove();
+  // Keep the stylesheet applied so users can see the spacing changes.
+  // It will be cleaned up when overlays are cleared (see TextSpacingRenderer).
 
   // Also check for text containers that use fixed line-height in px
   const textElements = queryAll("p, li, td, th, dd, blockquote, figcaption");

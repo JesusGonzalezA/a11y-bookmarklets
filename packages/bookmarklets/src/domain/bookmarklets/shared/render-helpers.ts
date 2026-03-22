@@ -18,6 +18,7 @@ export interface OverlayEntry {
 /** Render outline + label for a batch of elements. */
 export function renderOverlays(entries: OverlayEntry[]): void {
   for (const entry of entries) {
+    if (!entry.selector) continue;
     const el = document.querySelector(entry.selector);
     if (!el) continue;
 

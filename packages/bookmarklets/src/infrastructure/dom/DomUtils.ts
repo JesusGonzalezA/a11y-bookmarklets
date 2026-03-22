@@ -3,6 +3,8 @@
  */
 
 export function uniqueSelector(el: Element): string {
+  if (el === document.documentElement) return "html";
+
   if (el.id) {
     return `#${CSS.escape(el.id)}`;
   }
