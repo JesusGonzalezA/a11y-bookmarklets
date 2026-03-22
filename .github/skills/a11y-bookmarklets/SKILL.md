@@ -127,7 +127,7 @@ For each bookmarklet `{id}` to audit:
 
 4. **Read the knowledge file** for analysis context:
    ```
-   read_file('skill/knowledge/{id}.md')
+   read_file('./knowledge/{id}.md')
    ```
    The knowledge file explains what the bookmarklet checks, what the data means, and how to interpret issues.
 
@@ -160,7 +160,7 @@ Each bookmarklet stores its results at `window.__a11y.{id}.lastResult`:
 
 - **Read scripts only to inject them** — Use `read_file` to get the `.min.js` content, then pass it directly to `evaluate_script`. Do not analyze or discuss the script code itself.
 - **ALWAYS analyze the JSON result** — The `window.__a11y` JSON is the source of truth for the audit.
-- **Use knowledge files** — Read `skill/knowledge/{id}.md` to understand what the bookmarklet checks and how to interpret results.
+- **Use knowledge files** — Read `./knowledge/{id}.md` to understand what the bookmarklet checks and how to interpret results.
 - **Direct CDP injection bypasses CSP** — This approach works on any website, including those with strict Content Security Policy (github.com, google.com, etc.). No HTTP server or fetch() is needed.
 
 ## Recommended Audit Order

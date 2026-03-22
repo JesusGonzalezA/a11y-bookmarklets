@@ -66,8 +66,8 @@ async function main() {
 
   // ── Compile skill scripts ──
   const repoRoot = resolve(packageDir, "..", "..");
-  const skillScriptsDir = resolve(repoRoot, "skill", "scripts");
-  const skillKnowledgeDir = resolve(repoRoot, "skill", "knowledge");
+  const skillScriptsDir = resolve(repoRoot, "skills", "a11y-bookmarklets", "scripts");
+  const skillKnowledgeDir = resolve(repoRoot, "skills", "a11y-bookmarklets", "knowledge");
   mkdirSync(skillScriptsDir, { recursive: true });
   mkdirSync(skillKnowledgeDir, { recursive: true });
 
