@@ -22,13 +22,21 @@ export function Layout() {
           >
             A11y Bookmarklets
           </Link>
-          <a
-            href="https://github.com/user/a11y-bookmarklets"
-            className="text-sm text-muted-foreground hover:text-foreground transition-colors"
-            rel="noopener noreferrer"
-          >
-            GitHub
-          </a>
+          <div className="flex items-center gap-4">
+            <Link
+              to="/builder"
+              className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+            >
+              Builder
+            </Link>
+            <a
+              href="https://github.com/user/a11y-bookmarklets"
+              className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+              rel="noopener noreferrer"
+            >
+              GitHub
+            </a>
+          </div>
         </nav>
       </header>
 

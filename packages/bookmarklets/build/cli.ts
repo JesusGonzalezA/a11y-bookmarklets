@@ -94,7 +94,7 @@ async function main() {
   // ── Compile skill scripts (arrow-function format for tool injection) ──
   const repoRoot = resolve(packageDir, "..", "..");
   const skillScriptsDir = resolve(repoRoot, "skill", "scripts");
-  const skillBookmarkletsDir = resolve(repoRoot, "skill", "bookmarklets");
+  const skillBookmarkletsDir = resolve(repoRoot, "skill", "knowledge");
   mkdirSync(skillScriptsDir, { recursive: true });
   mkdirSync(skillBookmarkletsDir, { recursive: true });
 

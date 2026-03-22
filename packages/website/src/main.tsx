@@ -3,6 +3,7 @@ import { createRoot } from "react-dom/client";
 import { BrowserRouter, Route, Routes } from "react-router";
 import { Layout } from "@/components/layout";
 import { BookmarkletPage } from "@/pages/bookmarklet";
+import { BuilderPage } from "@/pages/builder";
 import { HomePage } from "@/pages/home";
 import { TestPage } from "@/pages/test-page";
 import "@/index.css";
@@ -15,6 +16,7 @@ if (root) {
         <Routes>
           <Route element={<Layout />}>
             <Route index element={<HomePage />} />
+            <Route path="builder" element={<BuilderPage />} />
             <Route path=":bookmarkletId" element={<BookmarkletPage />} />
             <Route path=":bookmarkletId/test" element={<TestPage />} />
           </Route>
