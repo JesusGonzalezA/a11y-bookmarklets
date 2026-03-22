@@ -14,7 +14,7 @@ export function useManifest() {
   const [manifest, setManifest] = useState<ManifestEntry[] | null>(null);
 
   useEffect(() => {
-    fetch("/bookmarklets/manifest.json")
+    fetch(`${import.meta.env.BASE_URL}bookmarklets/manifest.json`)
       .then((res) => {
         if (!res.ok) throw new Error("Not found");
         return res.json();
