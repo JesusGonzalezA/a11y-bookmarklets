@@ -1,8 +1,9 @@
-import { useCallback } from "react";
+import { useCallback, useMemo } from "react";
 import CodeMirror from "@uiw/react-codemirror";
 import { javascript } from "@codemirror/lang-javascript";
 import { Play } from "lucide-react";
 import { Button } from "@/shared/ui/button";
+import { browserCompletions } from "./browserCompletions";
 
 interface BookmarkletEditorProps {
   code: string;
@@ -13,6 +14,8 @@ interface BookmarkletEditorProps {
 }
 
 export function BookmarkletEditor({ code, onChange, height, onHeightChange, onRun }: BookmarkletEditorProps) {
+  const extensions = useMemo(() => [javascript(), browserCompletions], []);
+
   const handleResizePointerDown = useCallback(
     (e: React.PointerEvent<HTMLDivElement>) => {
       e.preventDefault();
@@ -52,7 +55,7 @@ export function BookmarkletEditor({ code, onChange, height, onHeightChange, onRu
       <CodeMirror
         value={code}
         onChange={onChange}
-        extensions={[javascript()]}
+        extensions={extensions}
         height={`${height}px`}
         basicSetup={{
           lineNumbers: true,
