@@ -1,9 +1,11 @@
 import { useCallback, useMemo } from "react";
 import CodeMirror from "@uiw/react-codemirror";
 import { javascript } from "@codemirror/lang-javascript";
-import { Play } from "lucide-react";
+import { Play, Save } from "lucide-react";
 import { Button } from "@/shared/ui/button";
 import { browserCompletions } from "./browserCompletions";
+import type { Snippet } from "./snippets";
+import { SnippetsDropdown } from "./SnippetsDropdown";
 
 interface BookmarkletEditorProps {
   code: string;
@@ -11,9 +13,13 @@ interface BookmarkletEditorProps {
   height: number;
   onHeightChange: (height: number) => void;
   onRun?: () => void;
+  onInsertSnippet?: (code: string) => void;
+  onSaveSnippet?: () => void;
+  customSnippets?: Snippet[];
+  onDeleteSnippet?: (id: string) => void;
 }
 
-export function BookmarkletEditor({ code, onChange, height, onHeightChange, onRun }: BookmarkletEditorProps) {
+export function BookmarkletEditor({ code, onChange, height, onHeightChange, onRun, onInsertSnippet, onSaveSnippet, customSnippets, onDeleteSnippet }: BookmarkletEditorProps) {
   const extensions = useMemo(() => [javascript(), browserCompletions], []);
 
   const handleResizePointerDown = useCallback(
@@ -39,7 +45,24 @@ export function BookmarkletEditor({ code, onChange, height, onHeightChange, onRu
 
   return (
     <div className="rounded-t-lg border border-border overflow-hidden">
-      <div className="flex items-center justify-end gap-2 px-3 py-1.5 bg-muted/50 border-b border-border">
+      <div className="flex items-center gap-2 px-3 py-1.5 bg-muted/50 border-b border-border">
+        <SnippetsDropdown
+          onInsert={onInsertSnippet ?? (() => {})}
+          customSnippets={customSnippets}
+          onDeleteSnippet={onDeleteSnippet}
+        />
+        <div className="flex-1" />
+        <Button
+          variant="ghost"
+          size="sm"
+          onClick={onSaveSnippet}
+          disabled={!onSaveSnippet || !code.trim()}
+          aria-label="Save as snippet"
+          title="Save as Snippet"
+        >
+          <Save />
+          Save as Snippet
+        </Button>
         <Button
           variant="ghost"
           size="sm"

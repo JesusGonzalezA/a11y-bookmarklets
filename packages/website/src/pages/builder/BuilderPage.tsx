@@ -1,18 +1,33 @@
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { BookmarkletEditor } from "@/features/build-bookmarklet/BookmarkletEditor";
 import { BuildOutput } from "@/features/build-bookmarklet/BuildOutput";
 import { MiniConsole, type ConsoleEntry } from "@/features/build-bookmarklet/MiniConsole";
 import { useBookmarkletBuilder } from "@/features/build-bookmarklet/useBookmarkletBuilder";
+import { useCustomSnippets } from "@/features/build-bookmarklet/useCustomSnippets";
 import { DEFAULT_CODE } from "@/features/build-bookmarklet/constants";
 import { Separator } from "@/shared/ui/separator";
 
 export function BuilderPage() {
   const [title, setTitle] = useState("My Bookmarklet");
-  const [code, setCode] = useState(DEFAULT_CODE);
+  const [code, setCode] = useState(() => localStorage.getItem("builder:code") ?? DEFAULT_CODE);
+
+  useEffect(() => {
+    localStorage.setItem("builder:code", code);
+  }, [code]);
   const [shouldMinify, setShouldMinify] = useState(false);
   const [editorHeight, setEditorHeight] = useState(300);
   const [consoleLogs, setConsoleLogs] = useState<ConsoleEntry[]>([]);
   const { bookmarkletUrl, error, isProcessing } = useBookmarkletBuilder(code, shouldMinify);
+  const { customSnippets, saveSnippet, removeSnippet } = useCustomSnippets();
+
+  const handleSaveSnippet = useCallback(() => {
+    const name = prompt("Snippet name:");
+    if (name?.trim()) saveSnippet(name.trim(), code);
+  }, [code, saveSnippet]);
+
+  const handleInsertSnippet = useCallback((snippetCode: string) => {
+    setCode((prev) => `${prev.trimEnd()}\n\n${snippetCode}`);
+  }, []);
 
   const handleRun = useCallback(() => {
     const newEntries: ConsoleEntry[] = [];
@@ -100,6 +115,10 @@ export function BuilderPage() {
           height={editorHeight}
           onHeightChange={setEditorHeight}
           onRun={handleRun}
+          onInsertSnippet={handleInsertSnippet}
+          onSaveSnippet={handleSaveSnippet}
+          customSnippets={customSnippets}
+          onDeleteSnippet={removeSnippet}
         />
         <MiniConsole entries={consoleLogs} onClear={() => setConsoleLogs([])} />
       </section>
