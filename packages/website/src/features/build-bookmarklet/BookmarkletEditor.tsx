@@ -1,15 +1,18 @@
 import { useCallback } from "react";
 import CodeMirror from "@uiw/react-codemirror";
 import { javascript } from "@codemirror/lang-javascript";
+import { Play } from "lucide-react";
+import { Button } from "@/shared/ui/button";
 
 interface BookmarkletEditorProps {
   code: string;
   onChange: (value: string) => void;
   height: number;
   onHeightChange: (height: number) => void;
+  onRun?: () => void;
 }
 
-export function BookmarkletEditor({ code, onChange, height, onHeightChange }: BookmarkletEditorProps) {
+export function BookmarkletEditor({ code, onChange, height, onHeightChange, onRun }: BookmarkletEditorProps) {
   const handleResizePointerDown = useCallback(
     (e: React.PointerEvent<HTMLDivElement>) => {
       e.preventDefault();
@@ -32,7 +35,20 @@ export function BookmarkletEditor({ code, onChange, height, onHeightChange }: Bo
   );
 
   return (
-    <div className="rounded-lg border border-border overflow-hidden">
+    <div className="rounded-t-lg border border-border overflow-hidden">
+      <div className="flex items-center justify-end gap-2 px-3 py-1.5 bg-muted/50 border-b border-border">
+        <Button
+          variant="ghost"
+          size="sm"
+          onClick={onRun}
+          disabled={!onRun}
+          aria-label="Run bookmarklet code"
+          title="Run code"
+        >
+          <Play />
+          Run
+        </Button>
+      </div>
       <CodeMirror
         value={code}
         onChange={onChange}

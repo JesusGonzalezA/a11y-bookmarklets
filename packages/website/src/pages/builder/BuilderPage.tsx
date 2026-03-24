@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { BookmarkletEditor } from "@/features/build-bookmarklet/BookmarkletEditor";
 import { BuildOutput } from "@/features/build-bookmarklet/BuildOutput";
+import { MiniConsole, type ConsoleEntry } from "@/features/build-bookmarklet/MiniConsole";
 import { useBookmarkletBuilder } from "@/features/build-bookmarklet/useBookmarkletBuilder";
 import { DEFAULT_CODE } from "@/features/build-bookmarklet/constants";
 import { Separator } from "@/shared/ui/separator";
@@ -10,7 +11,45 @@ export function BuilderPage() {
   const [code, setCode] = useState(DEFAULT_CODE);
   const [shouldMinify, setShouldMinify] = useState(false);
   const [editorHeight, setEditorHeight] = useState(300);
+  const [consoleLogs, setConsoleLogs] = useState<ConsoleEntry[]>([]);
   const { bookmarkletUrl, error, isProcessing } = useBookmarkletBuilder(code, shouldMinify);
+
+  const handleRun = useCallback(() => {
+    const newEntries: ConsoleEntry[] = [];
+    let nextId = Date.now();
+
+    const serialize = (...args: unknown[]) =>
+      args
+        .map((a) => {
+          if (typeof a === "string") return a;
+          try { return JSON.stringify(a, null, 2); } catch { return String(a); }
+        })
+        .join(" ");
+
+    const origLog = console.log;
+    const origInfo = console.info;
+    const origWarn = console.warn;
+    const origError = console.error;
+
+    console.log = (...args) => { newEntries.push({ id: nextId++, type: "log", text: serialize(...args) }); origLog(...args); };
+    console.info = (...args) => { newEntries.push({ id: nextId++, type: "info", text: serialize(...args) }); origInfo(...args); };
+    console.warn = (...args) => { newEntries.push({ id: nextId++, type: "warn", text: serialize(...args) }); origWarn(...args); };
+    console.error = (...args) => { newEntries.push({ id: nextId++, type: "error", text: serialize(...args) }); origError(...args); };
+
+    try {
+      // biome-ignore lint/security/noGlobalEval: intentional bookmarklet execution
+      (0, eval)(code);
+    } catch (e) {
+      newEntries.push({ id: nextId++, type: "error", text: String(e) });
+    } finally {
+      console.log = origLog;
+      console.info = origInfo;
+      console.warn = origWarn;
+      console.error = origError;
+    }
+
+    setConsoleLogs((prev) => [...prev, ...newEntries]);
+  }, [code]);
 
   return (
     <div className="max-w-3xl mx-auto px-6 py-12">
@@ -60,7 +99,9 @@ export function BuilderPage() {
           onChange={setCode}
           height={editorHeight}
           onHeightChange={setEditorHeight}
+          onRun={handleRun}
         />
+        <MiniConsole entries={consoleLogs} onClear={() => setConsoleLogs([])} />
       </section>
 
       <Separator className="mb-10" />
