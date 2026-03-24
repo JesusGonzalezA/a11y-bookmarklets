@@ -1,4 +1,5 @@
 import { code as createNavigablePanelCode } from "./snippets/create-navigable-panel";
+import { code as createAuditPanelCode } from "./snippets/create-audited-panel";
 
 export interface Snippet {
   id: string;
@@ -11,9 +12,17 @@ export interface Snippet {
 export const SNIPPETS: Snippet[] = [
   {
     id: "navigable-panel",
-    name: "Panel navegable",
-    description: "Panel con lista navegable por ↑ ↓ que resalta elementos al enfocarse",
+    name: "Navegable Panel",
+    description: "Navegable panel with keyboard support and focus management",
     icon: "ListTree",
     code: createNavigablePanelCode,
   },
+  {
+    id: "audited-panel",
+    name: "Audited Panel",
+    description: "Panel with tabs showing passes, warnings, and errors",
+    icon: "ShieldCheck",
+    code: createAuditPanelCode,
+
+  }
 ];
