@@ -81,26 +81,6 @@ export function BuilderPage() {
 
       <Separator className="mb-10" />
 
-      {/* Title */}
-      <section aria-labelledby="title-heading" className="mb-10">
-        <h2 id="title-heading" className="text-xl font-semibold mb-4">
-          Title
-        </h2>
-        <label htmlFor="bookmarklet-title" className="block text-sm text-muted-foreground mb-2">
-          Name for your bookmarklet
-        </label>
-        <input
-          id="bookmarklet-title"
-          type="text"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-          placeholder="My Bookmarklet"
-          className="w-full max-w-sm rounded-lg border border-border bg-background px-3 py-2 text-sm outline-none placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50"
-        />
-      </section>
-
-      <Separator className="mb-10" />
-
       {/* Code Editor */}
       <section aria-labelledby="code-heading" className="mb-10">
         <h2 id="code-heading" className="text-xl font-semibold mb-4">
@@ -125,33 +105,15 @@ export function BuilderPage() {
 
       <Separator className="mb-10" />
 
-      {/* Options */}
-      <section aria-labelledby="options-heading" className="mb-10">
-        <h2 id="options-heading" className="text-xl font-semibold mb-4">
-          Options
-        </h2>
-        <label className="inline-flex items-center gap-3 cursor-pointer select-none">
-          <input
-            type="checkbox"
-            checked={shouldMinify}
-            onChange={(e) => setShouldMinify(e.target.checked)}
-            className="h-4 w-4 rounded border-border accent-primary"
-          />
-          <span className="text-sm">
-            Minify code{" "}
-            <span className="text-muted-foreground">(compress &amp; mangle with Terser)</span>
-          </span>
-        </label>
-      </section>
-
-      <Separator className="mb-10" />
-
       <BuildOutput
         bookmarkletUrl={bookmarkletUrl}
         title={title}
+        onTitleChange={setTitle}
         code={code}
         error={error}
         isProcessing={isProcessing}
+        shouldMinify={shouldMinify}
+        onMinifyChange={setShouldMinify}
       />
     </div>
   );

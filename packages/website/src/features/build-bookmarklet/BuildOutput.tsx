@@ -6,12 +6,15 @@ import { Button } from "@/shared/ui/button";
 interface BuildOutputProps {
   bookmarkletUrl: string | null;
   title: string;
+  onTitleChange: (title: string) => void;
   code: string;
   error: string | null;
   isProcessing: boolean;
+  shouldMinify: boolean;
+  onMinifyChange: (value: boolean) => void;
 }
 
-export function BuildOutput({ bookmarkletUrl, title, code, error, isProcessing }: BuildOutputProps) {
+export function BuildOutput({ bookmarkletUrl, title, onTitleChange, code, error, isProcessing, shouldMinify, onMinifyChange }: BuildOutputProps) {
   const [copied, setCopied] = useState(false);
 
   const handleCopy = useCallback(async () => {
@@ -37,9 +40,37 @@ export function BuildOutput({ bookmarkletUrl, title, code, error, isProcessing }
 
   return (
     <section aria-labelledby="output-heading" className="mb-10">
-      <h2 id="output-heading" className="text-xl font-semibold mb-4">
+      <h2 id="output-heading" className="text-xl font-semibold mb-6">
         Your Bookmarklet
       </h2>
+
+      <div className="space-y-4 mb-6">
+        <div>
+          <label htmlFor="bookmarklet-title" className="block text-sm font-medium mb-1">
+            Title
+          </label>
+          <input
+            id="bookmarklet-title"
+            type="text"
+            value={title}
+            onChange={(e) => onTitleChange(e.target.value)}
+            placeholder="My Bookmarklet"
+            className="w-full max-w-sm rounded-lg border border-border bg-background px-3 py-2 text-sm outline-none placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50"
+          />
+        </div>
+        <label className="inline-flex items-center gap-3 cursor-pointer select-none">
+          <input
+            type="checkbox"
+            checked={shouldMinify}
+            onChange={(e) => onMinifyChange(e.target.checked)}
+            className="h-4 w-4 rounded border-border accent-primary"
+          />
+          <span className="text-sm">
+            Minify code{" "}
+            <span className="text-muted-foreground">(compress &amp; mangle with Terser)</span>
+          </span>
+        </label>
+      </div>
 
       {error && (
         <div
