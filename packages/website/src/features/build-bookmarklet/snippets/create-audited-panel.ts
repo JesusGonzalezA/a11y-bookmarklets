@@ -4,7 +4,9 @@ export const code = `// createAuditedPanel — panel con tabs passes / warnings 
 //      | { el: Element, color?: string, tag?: string, indent?: number, label?: string }[]
 //
 // classify(item): 'pass' | 'warning' | 'error'
-//   callback que recibe cada item normalizado y devuelve su categoría
+//               | { result: 'pass'|'warning'|'error', message: string }
+//   callback que recibe cada item normalizado y devuelve su categoría.
+//   Si devuelve un objeto { result, message }, el message sobreescribe al del item.
 //
 // options: {
 //   defaultColor?: string   // color de outline/badge cuando no se especifica por item
@@ -50,8 +52,10 @@ function createAuditedPanel(title, items, classify, options = {}) {
   // ── Classify each item ──
   const categorized = { pass: [], warning: [], error: [] };
   for (const item of normalized) {
-    const cat = classify(item) || 'pass';
-    categorized[cat].push(item);
+    const result = classify(item) || 'pass';
+    const cat    = typeof result === 'string' ? result : result.result;
+    const msg    = typeof result === 'object' ? result.message : null;
+    categorized[cat].push(msg != null ? { ...item, message: msg } : item);
   }
 
   // ── Apply outlines + inline labels to every element ──
